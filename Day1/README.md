@@ -460,3 +460,22 @@ jegan@dell-precision-7670:~$ docker ps
 CONTAINER ID   IMAGE          COMMAND       CREATED         STATUS         PORTS     NAMES
 af4568a9883d   ubuntu:16.04   "/bin/bash"   6 minutes ago   Up 5 minutes             ubuntu1
 </pre>
+
+## Starting and Stopping containers
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND       CREATED         STATUS         PORTS     NAMES
+af4568a9883d   ubuntu:16.04   "/bin/bash"   6 minutes ago   Up 5 minutes             ubuntu1
+jegan@dell-precision-7670:~$ docker stop ubuntu1
+ubuntu1
+jegan@dell-precision-7670:~$ docker start af45
+af45
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS         PORTS     NAMES
+af4568a9883d   ubuntu:16.04   "/bin/bash"   10 minutes ago   Up 6 seconds             ubuntu1
+jegan@dell-precision-7670:~$ docker stop af4
+af4
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+</pre>
