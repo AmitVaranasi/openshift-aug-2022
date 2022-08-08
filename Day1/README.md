@@ -1,6 +1,6 @@
 # Day 1
 
-# OpenShift
+# Containerization
 
 ## Hypervisor
 - general terminolgy used to refer the Virtualization Software
