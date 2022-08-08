@@ -375,3 +375,13 @@ Share images, automate workflows, and more with a free Docker ID:
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 </pre>
+
+## Listing the currently running containers
+```
+docker ps
+```
+
+## Listing all the containers 
+```
+docker ps -a
+```
