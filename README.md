@@ -48,7 +48,11 @@
   - 1. Namespace ( Isolation of containers are supported )
   - 2. Control Groups ( CGroup) - should be apply hardware upper limit quota restrictions to containers
 
-
+- Containers
+  - has IP address
+  - has file system
+  - has Network Stack ( OSI Layers )
+  - has Software defined Network Card (NIC)
 ## Docker Overview
 
 - Docker comes two flavours
