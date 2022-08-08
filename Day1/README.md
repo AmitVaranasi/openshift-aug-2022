@@ -392,3 +392,18 @@ jegan@dell-precision-7670:~$ <b>docker ps -a</b>
 CONTAINER ID   IMAGE                COMMAND    CREATED              STATUS                          PORTS     NAMES
 7fb6b5c4f204   hello-world:latest   "/hello"   About a minute ago   Exited (0) About a minute ago             awesome_goldstine
 </pre>
+
+## Renaming a conatainer
+```
+docker rename <old-contianer-name> <new-container-name>
+```
+
+Expected output
+<pre>
+egan@dell-precision-7670:~$ <b>docker rename awesome_goldstine c1</b>
+jegan@dell-precision-7670:~$ <b>docker ps</b>
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+jegan@dell-precision-7670:~$ <b>docker ps -a</b>
+CONTAINER ID   IMAGE                COMMAND    CREATED         STATUS                     PORTS     NAMES
+7fb6b5c4f204   hello-world:latest   "/hello"   7 minutes ago   Exited (0) 7 minutes ago             c1
+</pre>
