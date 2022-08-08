@@ -112,7 +112,7 @@ https://medium.com/@jegan_50867/docker-commands-ba19387383b4
 
 ### Finding details about your docker installation
 ```
-docker infor
+docker info
 ```
 
 Expected output
