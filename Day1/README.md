@@ -407,3 +407,20 @@ jegan@dell-precision-7670:~$ <b>docker ps -a</b>
 CONTAINER ID   IMAGE                COMMAND    CREATED         STATUS                     PORTS     NAMES
 7fb6b5c4f204   hello-world:latest   "/hello"   7 minutes ago   Exited (0) 7 minutes ago             c1
 </pre>
+
+## Creating a container in interactive fashion
+```
+docker run -it --name ubuntu1 --hostname ubuntu1 ubuntu:16.04 /bin/bash
+```
+
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ <b>docker run -it --name ubuntu1 --hostname ubuntu1 ubuntu:16.04 /bin/bash</b>
+root@ubuntu1:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@ubuntu1:/# <b>hostname</b>
+ubuntu1
+root@ubuntu1:/# <b>hostname -i</b>
+172.17.0.2
+root@ubuntu1:/# <b>exit</b>
+</pre>
