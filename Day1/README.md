@@ -1799,3 +1799,14 @@ jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker logs db
 2022-08-08T12:16:15.269404Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.30'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
 
 </pre>
+
+
+## Deleting an image from Docker Local Registry
+<pre>
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker rmi hello-world:latest 
+Untagged: hello-world:latest
+Untagged: hello-world@sha256:53f1bbee2f52c39e41682ee1d388285290c5c8a76cc92b42687eecf38e0af3f0
+Deleted: sha256:feb5d9fea6a5e9606aa995e879d862b825965ba48de054caab5ef356dc6b3412
+Deleted: sha256:e07ee1baac5fae6a26f30cabfe54a36d3402f96afda318fe0a96cec4ca393359
+
+</pre>
