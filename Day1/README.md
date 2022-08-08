@@ -755,6 +755,38 @@ font-family: Tahoma, Verdana, Arial, sans-serif; }
 working. Further configuration is required.</p>
 
 <p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>jegan@dell-precision-7670:~$ docker run -d --name web2 --hostname web2 nginx:latest
+59eeb34bca86d636cfa34c6de270c44efab9ac31bd6c2d72804d326e97f7a2fe
+jegan@dell-precision-7670:~$ docker run -d --name web3 --hostname web3 nginx:latest
+a2af8503d2807e4dc0c4e0b715f124f910785d35bd7bd4ced4444a580b1ed92d
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+a2af8503d280   nginx:latest   "/docker-entrypoint.…"   2 seconds ago    Up 1 second     80/tcp    web3
+59eeb34bca86   nginx:latest   "/docker-entrypoint.…"   10 seconds ago   Up 9 seconds    80/tcp    web2
+eb3e23fdb208   nginx:latest   "/docker-entrypoint.…"   13 minutes ago   Up 13 minutes   80/tcp    web1
+jegan@dell-precision-7670:~$ docker inspect -f {{.NetworkSettings.IPAddress}} web1
+172.17.0.2
+jegan@dell-precision-7670:~$ docker inspect -f {{.NetworkSettings.IPAddress}} web2
+172.17.0.3
+jegan@dell-precision-7670:~$ docker inspect -f {{.NetworkSettings.IPAddress}} web3
+172.17.0.4
+jegan@dell-precision-7670:~$ curl 172.17.0.3
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
 <a href="http://nginx.org/">nginx.org</a>.<br/>
 Commercial support is available at
 <a href="http://nginx.com/">nginx.com</a>.</p>
