@@ -1337,3 +1337,32 @@ jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ curl localhost
 Server 1
 
 </pre>
+
+
+## The updated Nginx load balancer configuration file should look like below
+<pre>
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    upstream backend {
+        server 172.17.0.2:80;
+        server 172.17.0.3:80;
+        server 172.17.0.4:80;
+    }
+
+    server {
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+}
+</pre>
