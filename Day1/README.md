@@ -943,3 +943,139 @@ jegan@dell-precision-7670:~$ docker network inspect bridge
     }
 ]
 </pre>
+
+## Creating a custom network and adding a container to your private network
+<pre>
+jegan@dell-precision-7670:~$ docker network create my-net-3 --subnet 192.168.100.0/24
+4b90a70702c8edb740af6c051a0ee6d390b45501bcbbc7c9b7ee88b0d70cd32d
+jegan@dell-precision-7670:~$ docker network ls
+NETWORK ID     NAME       DRIVER    SCOPE
+d7fce2dc7dda   bridge     bridge    local
+5787a5e22bc5   host       host      local
+e1424119e2ec   my-net-1   bridge    local
+5319369b37d3   my-net-2   bridge    local
+4b90a70702c8   my-net-3   bridge    local
+da0bf7e46cb4   none       null      local
+jegan@dell-precision-7670:~$ ifconfig
+br-4b90a70702c8: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.100.1  netmask 255.255.255.0  broadcast 192.168.100.255
+        ether 02:42:b5:df:ba:37  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+br-5319369b37d3: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.19.0.1  netmask 255.255.0.0  broadcast 172.19.255.255
+        ether 02:42:68:40:72:f1  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+br-e1424119e2ec: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.18.0.1  netmask 255.255.0.0  broadcast 172.18.255.255
+        ether 02:42:be:08:71:07  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        inet6 fe80::42:33ff:fe5a:f98f  prefixlen 64  scopeid 0x20<link>
+        ether 02:42:33:5a:f9:8f  txqueuelen 0  (Ethernet)
+        RX packets 19  bytes 2662 (2.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 210  bytes 32848 (32.8 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s31f6: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether 08:92:04:3e:f8:c3  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 19  memory 0x96100000-96120000  
+
+enx4ee6c01ee064: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.20.10.5  netmask 255.255.255.240  broadcast 172.20.10.15
+        inet6 fe80::ae04:231c:8d57:a547  prefixlen 64  scopeid 0x20<link>
+        inet6 2401:4900:234c:76de:84e0:88d0:e72a:40ec  prefixlen 64  scopeid 0x0<global>
+        inet6 2401:4900:234c:76de:38cb:592e:c8d8:d1c8  prefixlen 64  scopeid 0x0<global>
+        ether 4e:e6:c0:1e:e0:64  txqueuelen 1000  (Ethernet)
+        RX packets 124401  bytes 80801356 (80.8 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 252860  bytes 67078354 (67.0 MB)
+        TX errors 1  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 401155000  bytes 79701241633 (79.7 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 401155000  bytes 79701241633 (79.7 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+veth6a74f11: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::8c96:baff:fe8b:21ab  prefixlen 64  scopeid 0x20<link>
+        ether 8e:96:ba:8b:21:ab  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 100  bytes 16157 (16.1 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+veth9e16802: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::2c22:18ff:fead:ca21  prefixlen 64  scopeid 0x20<link>
+        ether 2e:22:18:ad:ca:21  txqueuelen 0  (Ethernet)
+        RX packets 7  bytes 1275 (1.2 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 116  bytes 17931 (17.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+vethc23d13d: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::5c67:f8ff:fe90:c5de  prefixlen 64  scopeid 0x20<link>
+        ether 5e:67:f8:90:c5:de  txqueuelen 0  (Ethernet)
+        RX packets 12  bytes 1653 (1.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 169  bytes 26650 (26.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:79:0a:83  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp0s20f3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.104  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::e3a5:c91c:4313:30b9  prefixlen 64  scopeid 0x20<link>
+        ether a0:80:69:39:18:9f  txqueuelen 1000  (Ethernet)
+        RX packets 1447979  bytes 1144958145 (1.1 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1775183  bytes 833312722 (833.3 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+jegan@dell-precision-7670:~$ docker run -dit --name c1 --hostname c1 ubuntu:16.04 /bin/bash
+docker: Error response from daemon: Conflict. The container name "/c1" is already in use by container "7fb6b5c4f20464120725d73e1bc6932f2138bc74863298a3ebddffe2004bd918". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+jegan@dell-precision-7670:~$ docker run -dit --name c2 --hostname c2 --network=my-net-3 ubuntu:16.04 /bin/bash
+7d491f19487886cf49618b5224638bdadc7dceb9501257b520cee0ec93e8eeee
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+7d491f194878   ubuntu:16.04   "/bin/bash"              3 seconds ago    Up 2 seconds              c2
+a2af8503d280   nginx:latest   "/docker-entrypoint.…"   17 minutes ago   Up 17 minutes   80/tcp    web3
+59eeb34bca86   nginx:latest   "/docker-entrypoint.…"   17 minutes ago   Up 17 minutes   80/tcp    web2
+eb3e23fdb208   nginx:latest   "/docker-entrypoint.…"   31 minutes ago   Up 31 minutes   80/tcp    web1
+jegan@dell-precision-7670:~$ docker inspect -f {{.NetworkSettings.IPAddress}} c2
+
+jegan@dell-precision-7670:~$ docker inspect c2 | grep IPA
+            "SecondaryIPAddresses": null,
+            "IPAddress": "",
+                    "IPAMConfig": null,
+                    "IPAddress": "192.168.100.2",
+
+</pre>
