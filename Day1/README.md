@@ -479,3 +479,28 @@ af4
 jegan@dell-precision-7670:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 </pre>
+
+
+## Creating a container in background mode
+```
+docker run -d --name web1 --hostname web1 nginx:latest
+```
+
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ docker run -d --name web1 --hostname web1 nginx:latest 
+Unable to find image 'nginx:latest' locally
+latest: Pulling from library/nginx
+1efc276f4ff9: Pull complete 
+baf2da91597d: Pull complete 
+05396a986fd3: Pull complete 
+6a17c8e7063d: Pull complete 
+27e0d286aeab: Pull complete 
+b1349eea8fc5: Pull complete 
+Digest: sha256:ecc068890de55a75f1a32cc8063e79f90f0b043d70c5fcf28f1713395a4b3d49
+Status: Downloaded newer image for nginx:latest
+eb3e23fdb20893913da2c3c1817afcc9a47cd5160ebf2287d08aadcac44669f2
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+eb3e23fdb208   nginx:latest   "/docker-entrypoint.…"   24 seconds ago   Up 23 seconds   80/tcp    web1
+</pre>
