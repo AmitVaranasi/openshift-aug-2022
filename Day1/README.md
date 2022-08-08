@@ -1078,4 +1078,34 @@ jegan@dell-precision-7670:~$ docker inspect c2 | grep IPA
                     "IPAMConfig": null,
                     "IPAddress": "192.168.100.2",
 
+
+### ⛹️‍♂️ Lab - Creating a LoadBalancer using nginx image
+```
+docker run -d --name web1 --hostname web1 nginx:latest
+docker run -d --name web2 --hostname web2 nginx:latest
+docker run -d --name web3 --hostname web3 nginx:latest
+
+docker run -d --name lb --hostname lb -p 80:80 nginx:latest
+
+docker ps
+```
+
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ docker run -d --name web1 --hostname web1 nginx:latest
+2b22ed87b8749ee715a90de068a34b2eb47077cfee340e9cb3012dcde0c25822
+jegan@dell-precision-7670:~$ docker run -d --name web2 --hostname web2 nginx:latest
+98d61adfb0bdb18322ab55e1c454d70ff8f31dc03529c553d597e5f65dfcfc5c
+jegan@dell-precision-7670:~$ docker run -d --name web3 --hostname web3 nginx:latest
+e1ba3ee3ca7fd60a96bb7fe8d6cc82ccbe879889e1d93e6c7dbbb3f9d7a96075
+jegan@dell-precision-7670:~$ docker run -d --name lb --hostname lb -p 80:80 nginx:latest
+a46601633de84c6e327f4d9dd2a4c9902d0475915034b21602b1f6659d2fefd4
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS                               NAMES
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 seconds ago        Up 1 second         0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                              web1
+
+</pre>
 </pre>
