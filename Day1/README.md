@@ -1778,3 +1778,24 @@ drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Aug  8 17:45  tektutor
 -rw-r----- 1 systemd-coredump systemd-coredump 16777216 Aug  8 17:48  undo_002
 
 </pre>
+
+## Checking mysql db logs
+<pre>
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker logs db
+2022-08-08 12:16:14+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.30-1.el8 started.
+2022-08-08 12:16:14+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2022-08-08 12:16:14+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.30-1.el8 started.
+'/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'
+2022-08-08T12:16:14.728426Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2022-08-08T12:16:14.729907Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.30) starting as process 1
+2022-08-08T12:16:14.744196Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2022-08-08T12:16:14.987799Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2022-08-08T12:16:15.151765Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2022-08-08T12:16:15.167204Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2022-08-08T12:16:15.243485Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2022-08-08T12:16:15.243536Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2022-08-08T12:16:15.244699Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2022-08-08T12:16:15.269387Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
+2022-08-08T12:16:15.269404Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.30'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+
+</pre>
