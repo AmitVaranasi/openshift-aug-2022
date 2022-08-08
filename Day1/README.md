@@ -729,3 +729,38 @@ jegan@dell-precision-7670:~$ docker inspect web1
     }
 ]
 </pre>
+
+
+## Accessing the nginx web1 container web page
+<pre>
+jegan@dell-precision-7670:~$ docker inspect web1 | grep IPA
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.2",
+                    "IPAMConfig": null,
+                    "IPAddress": "172.17.0.2",
+jegan@dell-precision-7670:~$ curl 172.17.0.2
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+</pre>
