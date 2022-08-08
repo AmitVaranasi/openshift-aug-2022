@@ -53,9 +53,53 @@
   - has file system
   - has Network Stack ( OSI Layers )
   - has Software defined Network Card (NIC)
-## Docker Overview
 
+## Container Runtimes
+- runc Container runtime is used Docker Engine
+
+
+## Container Image Building Tools
+- buildah
+- Skopio
+
+
+## Container Engine
+- it is user-friendly Container software that make use of container runtime and other tools to manage container images
+- used by end-users like us
+- it offers easy to use user-friendly commands
+- examples
+  1. Podman is a Container Engine
+  2. Docker is also a Container Engine
+
+## Docker Overview
+- is a Container Engine
 - Docker comes two flavours
   1. Docker Community Edition - Docker CE ( OpenSource )
   2. Docker Enterprise Edition - Docker EE ( Licensed Software )
-  
+
+## Docker Alternates
+- LXC
+- Containerd
+- Podman
+
+## Container Orchestration Platforms/Tools
+- Docker SWARM
+   - manages containerized applications that use Docker Container Engine
+- Kubernetes
+   - manages containerized application that supports any container runtime that implements CNI(Container Network Interface)
+   - Google
+   - Opensource
+   - CLI
+   - Web Dashboard - limited in functionality - not enterprise grade ( in-secured )
+- RedHat OpenShift
+   - developed on top of Google Kubernetes with many additional features
+   - manages containerized application that supports CRI-O Container Runtime (Podman - Container Engine )
+   - is RedHat's distribution of Kubernetes
+   - CLI and Web-interface
+ 
+- they many containerized applications
+- High Availability of your applications are guaranteed
+- inbuilt-monitoring features
+- scale up/down your application instances depending on demand
+- rolling update
+   - upgrading your live application from one version to other without any down time
