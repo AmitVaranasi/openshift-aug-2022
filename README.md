@@ -33,6 +33,10 @@
 - Benefits
   - Server consolidation
 
+## Medium Blog - Most commonly used docker commands
+<pre>
+https://medium.com/@jegan_50867/docker-commands-ba19387383b4
+</pre>
 
 
 ## Container Technology
