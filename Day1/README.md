@@ -794,5 +794,152 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
+</pre>
 
+## Inspecting Network in Docker
+<pre>
+jegan@dell-precision-7670:~$ ifconfig
+docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        inet6 fe80::42:33ff:fe5a:f98f  prefixlen 64  scopeid 0x20<link>
+        ether 02:42:33:5a:f9:8f  txqueuelen 0  (Ethernet)
+        RX packets 19  bytes 2662 (2.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 167  bytes 25477 (25.4 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s31f6: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether 08:92:04:3e:f8:c3  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 19  memory 0x96100000-96120000  
+
+enx4ee6c01ee064: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.20.10.5  netmask 255.255.255.240  broadcast 172.20.10.15
+        inet6 fe80::ae04:231c:8d57:a547  prefixlen 64  scopeid 0x20<link>
+        inet6 2401:4900:234c:76de:84e0:88d0:e72a:40ec  prefixlen 64  scopeid 0x0<global>
+        inet6 2401:4900:234c:76de:38cb:592e:c8d8:d1c8  prefixlen 64  scopeid 0x0<global>
+        ether 4e:e6:c0:1e:e0:64  txqueuelen 1000  (Ethernet)
+        RX packets 108926  bytes 77907206 (77.9 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 178139  bytes 45110718 (45.1 MB)
+        TX errors 1  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 400988124  bytes 79685246606 (79.6 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 400988124  bytes 79685246606 (79.6 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+veth6a74f11: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::8c96:baff:fe8b:21ab  prefixlen 64  scopeid 0x20<link>
+        ether 8e:96:ba:8b:21:ab  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 55  bytes 8513 (8.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+veth9e16802: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::2c22:18ff:fead:ca21  prefixlen 64  scopeid 0x20<link>
+        ether 2e:22:18:ad:ca:21  txqueuelen 0  (Ethernet)
+        RX packets 7  bytes 1275 (1.2 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 71  bytes 10287 (10.2 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+vethc23d13d: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::5c67:f8ff:fe90:c5de  prefixlen 64  scopeid 0x20<link>
+        ether 5e:67:f8:90:c5:de  txqueuelen 0  (Ethernet)
+        RX packets 12  bytes 1653 (1.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 126  bytes 19279 (19.2 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:79:0a:83  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp0s20f3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.104  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::e3a5:c91c:4313:30b9  prefixlen 64  scopeid 0x20<link>
+        ether a0:80:69:39:18:9f  txqueuelen 1000  (Ethernet)
+        RX packets 1447396  bytes 1144891537 (1.1 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1774551  bytes 833241643 (833.2 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+jegan@dell-precision-7670:~$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+d7fce2dc7dda   bridge    bridge    local
+5787a5e22bc5   host      host      local
+da0bf7e46cb4   none      null      local
+jegan@dell-precision-7670:~$ docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "d7fce2dc7dda8e69598b45a367b49bdebac6f5ecd97a9f2f84f81955d7e56d3a",
+        "Created": "2022-08-08T08:04:30.914133428+05:30",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "59eeb34bca86d636cfa34c6de270c44efab9ac31bd6c2d72804d326e97f7a2fe": {
+                "Name": "web2",
+                "EndpointID": "f71df1e5dd40da8601d0729c3bb3e5bc30803ced9c0f99fe9863aca12b38d8bc",
+                "MacAddress": "02:42:ac:11:00:03",
+                "IPv4Address": "172.17.0.3/16",
+                "IPv6Address": ""
+            },
+            "a2af8503d2807e4dc0c4e0b715f124f910785d35bd7bd4ced4444a580b1ed92d": {
+                "Name": "web3",
+                "EndpointID": "0511ddcbbc1ac925b35040670a9d0bc9400a51ee027de51f17a7a6d582bc5030",
+                "MacAddress": "02:42:ac:11:00:04",
+                "IPv4Address": "172.17.0.4/16",
+                "IPv6Address": ""
+            },
+            "eb3e23fdb20893913da2c3c1817afcc9a47cd5160ebf2287d08aadcac44669f2": {
+                "Name": "web1",
+                "EndpointID": "30c763c82cb4c159e65cfb0e4f8fed5adf74c74bfb5e78f30ca8b1360aa83d8e",
+                "MacAddress": "02:42:ac:11:00:02",
+                "IPv4Address": "172.17.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
 </pre>
