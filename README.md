@@ -180,6 +180,32 @@ Server:
 docker images
 ```
 
+### Download mysql image
+```
+docker pull mysql:latest
+```
+
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ docker pull mysql:latest
+latest: Pulling from library/mysql
+32c1bf40aba1: Pull complete 
+3ac22f3a638d: Pull complete 
+b1e7273ed05e: Pull complete 
+20be45a0c6ab: Pull complete 
+410a229693ff: Pull complete 
+1ce71e3a9b88: Pull complete 
+c93c823af05b: Pull complete 
+c6752c4d09c7: Pull complete 
+d7f2cfe3efcb: Pull complete 
+916f32cb0394: Pull complete 
+0d62a5f9a14f: Pull complete 
+Digest: sha256:ce2ae3bd3e9f001435c4671cf073d1d5ae55d138b16927268474fc54ba09ed79
+Status: Downloaded newer image for mysql:latest
+docker.io/library/mysql:latest
+</pre>
+
+
 ### Docker Image inspect
 ```
 jegan@dell-precision-7670:~$ <b>docker image inspect mysql:latest</b>
@@ -311,3 +337,8 @@ jegan@dell-precision-7670:~$ <b>docker image inspect mysql:latest</b>
     }
 ]
 </pre>
+
+### Creating your first container
+```
+docker run hello-world:latest
+```
