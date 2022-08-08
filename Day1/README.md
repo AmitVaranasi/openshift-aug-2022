@@ -385,3 +385,10 @@ docker ps
 ```
 docker ps -a
 ```
+
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ <b>docker ps -a</b>
+CONTAINER ID   IMAGE                COMMAND    CREATED              STATUS                          PORTS     NAMES
+7fb6b5c4f204   hello-world:latest   "/hello"   About a minute ago   Exited (0) About a minute ago             awesome_goldstine
+</pre>
