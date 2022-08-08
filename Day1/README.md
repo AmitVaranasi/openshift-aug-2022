@@ -424,3 +424,22 @@ root@ubuntu1:/# <b>hostname -i</b>
 172.17.0.2
 root@ubuntu1:/# <b>exit</b>
 </pre>
+
+## Starting a exited container
+```
+docker start ubuntu1
+```
+
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ docker ps -a
+CONTAINER ID   IMAGE                COMMAND       CREATED              STATUS                      PORTS     NAMES
+af4568a9883d   ubuntu:16.04         "/bin/bash"   About a minute ago   Exited (0) 6 seconds ago              ubuntu1
+4a4a0356cd89   ubuntu:16.04         "/bin/bash"   2 minutes ago        Exited (0) 2 minutes ago              brave_northcutt
+7fb6b5c4f204   hello-world:latest   "/hello"      19 minutes ago       Exited (0) 19 minutes ago             c1
+jegan@dell-precision-7670:~$ docker start ubuntu1
+ubuntu1
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS        PORTS     NAMES
+af4568a9883d   ubuntu:16.04   "/bin/bash"   About a minute ago   Up 1 second             ubuntu1
+</pre>
