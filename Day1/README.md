@@ -1109,3 +1109,231 @@ e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up
 
 </pre>
 </pre>
+
+
+## Configure Load Balancer Container to route the traffic to any one of the container ie web1 or web2 or web3
+<pre>
+jegan@dell-precision-7670:~$ docker run -d --name web1 --hostname web1 nginx:latest
+2b22ed87b8749ee715a90de068a34b2eb47077cfee340e9cb3012dcde0c25822
+jegan@dell-precision-7670:~$ docker run -d --name web2 --hostname web2 nginx:latest
+98d61adfb0bdb18322ab55e1c454d70ff8f31dc03529c553d597e5f65dfcfc5c
+jegan@dell-precision-7670:~$ docker run -d --name web3 --hostname web3 nginx:latest
+e1ba3ee3ca7fd60a96bb7fe8d6cc82ccbe879889e1d93e6c7dbbb3f9d7a96075
+jegan@dell-precision-7670:~$ docker run -d --name lb --hostname lb -p 80:80 nginx:latest
+a46601633de84c6e327f4d9dd2a4c9902d0475915034b21602b1f6659d2fefd4
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS                               NAMES
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 seconds ago        Up 1 second         0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                              web1
+jegan@dell-precision-7670:~$ docker exec -it lb bash
+root@lb:/# cd /etc/nginx
+root@lb:/etc/nginx# ls
+conf.d	fastcgi_params	mime.types  modules  nginx.conf  scgi_params  uwsgi_params
+root@lb:/etc/nginx# vim
+bash: vim: command not found
+root@lb:/etc/nginx# vim
+bash: vim: command not found
+root@lb:/etc/nginx# vi
+bash: vi: command not found
+root@lb:/etc/nginx# more nginx.conf
+
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    include /etc/nginx/conf.d/*.conf;
+}
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# 
+root@lb:/etc/nginx# ls
+conf.d	fastcgi_params	mime.types  modules  nginx.conf  scgi_params  uwsgi_params
+root@lb:/etc/nginx# pwd
+/etc/nginx
+root@lb:/etc/nginx# exit
+exit
+jegan@dell-precision-7670:~$ cd devops-aug-2022/
+jegan@dell-precision-7670:~/devops-aug-2022$ cd ..
+jegan@dell-precision-7670:~$ cd openshift-aug-2022/
+jegan@dell-precision-7670:~/openshift-aug-2022$ cd Day1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker cp lb:/etc/nginx/nginx.conf .
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ ls
+nginx.conf  README.md
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ vim nginx.conf 
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker inspect web1|grep IPA
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.2",
+                    "IPAMConfig": null,
+                    "IPAddress": "172.17.0.2",
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker inspect web2|grep IPA
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.3",
+                    "IPAMConfig": null,
+                    "IPAddress": "172.17.0.3",
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker inspect web3|grep IPA
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.4",
+                    "IPAMConfig": null,
+                    "IPAddress": "172.17.0.4",
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ vim nginx.conf 
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ ls
+nginx.conf  README.md
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker cp nginx.conf lb:/etc/nginx/nginx.conf
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker restart lb
+lb
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                               NAMES
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   9 minutes ago    Up 1 second     0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   10 minutes ago   Up 10 minutes   80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   10 minutes ago   Up 10 minutes   80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   10 minutes ago   Up 10 minutes   80/tcp                              web1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ echo "Server 1" > index.html
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker exec -it web1 bash
+root@web1:/# cd /etc/nginx
+root@web1:/etc/nginx# ls
+conf.d	fastcgi_params	mime.types  modules  nginx.conf  scgi_params  uwsgi_params
+root@web1:/etc/nginx# more nginx.conf
+
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    include /etc/nginx/conf.d/*.conf;
+}
+root@web1:/etc/nginx# 
+root@web1:/etc/nginx# 
+root@web1:/etc/nginx# cd conf.d/
+root@web1:/etc/nginx/conf.d# ls
+default.conf
+root@web1:/etc/nginx/conf.d# ls -l
+total 4
+-rw-r--r-- 1 root root 1093 Aug  8 10:35 default.conf
+root@web1:/etc/nginx/conf.d# more default.conf 
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+root@web1:/etc/nginx/conf.d# cat /usr/share/nginx/html/index.html 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+root@web1:/etc/nginx/conf.d# exit
+exit
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ ls
+index.html  nginx.conf  README.md
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ cat index.html 
+Server 1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker cp index.html web1:/usr/share/nginx/html/index.html
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ echo "Server 2" > index.html
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker cp index.html web2:/usr/share/nginx/html/index.html
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ echo "Server 3" > index.html
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker cp index.html web3:/usr/share/nginx/html/index.html
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ curl localhost
+Server 1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ curl localhost
+Server 1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ curl localhost
+Server 1
+
+</pre>
