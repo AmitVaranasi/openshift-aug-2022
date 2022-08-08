@@ -1366,3 +1366,415 @@ http {
     }
 }
 </pre>
+
+
+## Storing mysql db records in a external storage using Volume Mounting
+<pre>
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker run -d --name db --hostname db -e MYSQL_ROOT_PASSWORD=root mysql:latest
+19dd70ba784c84e221eeb864850e41c82a1b16acc8975710157db073a512b4b9
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS             PORTS                               NAMES
+19dd70ba784c   mysql:latest   "docker-entrypoint.s…"   4 seconds ago   Up 3 seconds       3306/tcp, 33060/tcp                 db
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up About an hour   0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker exec -it db bash
+bash-4.4# ls
+bin   dev			  entrypoint.sh  home  lib64  mnt  proc  run   srv  tmp  var
+boot  docker-entrypoint-initdb.d  etc		 lib   media  opt  root  sbin  sys  usr
+bash-4.4# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE DATABASE tektutor;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tektutor           |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> USE tektutor;
+Database changed
+mysql> CREATE TABLE training ( id int, name varchar(60), duration varchar(60));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_tektutor |
++--------------------+
+| training           |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO training VALUES ( 1, "Advanced C++ Programming", "5 Days" );
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO training VALUES ( 2, "Game Programming using Qt and QML", "5 Days" );
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM training;
++------+-----------------------------------+----------+
+| id   | name                              | duration |
++------+-----------------------------------+----------+
+|    1 | Advanced C++ Programming          | 5 Days   |
+|    2 | Game Programming using Qt and QML | 5 Days   |
++------+-----------------------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+bash-4.4# exit
+exit
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker stop db
+db
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS             PORTS                               NAMES
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up About an hour   0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours         80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours         80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours         80/tcp                              web1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker start db
+db
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS             PORTS                               NAMES
+19dd70ba784c   mysql:latest   "docker-entrypoint.s…"   3 minutes ago   Up 2 seconds       3306/tcp, 33060/tcp                 db
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up About an hour   0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker exec -it db bash
+bash-4.4# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tektutor           |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> USE tektutor;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_tektutor |
++--------------------+
+| training           |
++--------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT * 
+    -> FROM training;
++------+-----------------------------------+----------+
+| id   | name                              | duration |
++------+-----------------------------------+----------+
+|    1 | Advanced C++ Programming          | 5 Days   |
+|    2 | Game Programming using Qt and QML | 5 Days   |
++------+-----------------------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+bash-4.4# exit
+exit
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker rm -f db
+db
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker run -d --name db --hostname db -e MYSQL_ROOT_PASSWORD=root mysql:latest
+3239cfacc983b592d93a4af5257e857ade5c6b1565427fafdd3e9d5468390eb6
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker exec -it db bash
+bash-4.4# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
+
+mysql> exit
+Bye
+bash-4.4# exit
+exit
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker rm -f db
+db
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ mkdir -p /tmp/mysql
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ ls -l /tmp/mysql
+total 0
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ ls -lha /tmp/mysql
+total 8.0K
+drwxrwxr-x  2 jegan jegan 4.0K Aug  8 17:43 .
+drwxrwxrwt 22 root  root  4.0K Aug  8 17:43 ..
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ set -o vi
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker run -d --name db --hostname db -v /tmp/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql:latest
+2f1ef9a5424168ca8a5de16ef6f9cd865e81e399b0bf9cb390e93cd7a84038fb
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS             PORTS                               NAMES
+2f1ef9a54241   mysql:latest   "docker-entrypoint.s…"   3 seconds ago   Up 3 seconds       3306/tcp, 33060/tcp                 db
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up About an hour   0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours         80/tcp                              web1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker exec -it db bash
+bash-4.4# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE tektutor;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE tektutor;
+Database changed
+mysql> CREATE TABLE training ( id int, name varchar(50), duration varchar(50) );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO training VALUES ( 1, "Microservices", "5 Days" );
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from training;
++------+---------------+----------+
+| id   | name          | duration |
++------+---------------+----------+
+|    1 | Microservices | 5 Days   |
++------+---------------+----------+
+1 row in set (0.00 sec)
+
+mysql> exit
+Bye
+bash-4.4# exit
+exit
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker rm -f db
+db
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS       PORTS                               NAMES
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours   0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours   80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours   80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours   80/tcp                              web1
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker run -d --name db --hostname db -v /tmp/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql:latest
+836943c501667a9126ab87819aa90dc191c8b98fe65569eb8544023344346c9d
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ docker exec -it db sh
+sh-4.4# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tektutor           |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> USE tektutor;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_tektutor |
++--------------------+
+| training           |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM training;
++------+---------------+----------+
+| id   | name          | duration |
++------+---------------+----------+
+|    1 | Microservices | 5 Days   |
++------+---------------+----------+
+1 row in set (0.00 sec)
+
+mysql> ^C
+mysql> exit
+Bye
+sh-4.4# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         930G   31G  852G   4% /
+tmpfs            64M     0   64M   0% /dev
+tmpfs            32G     0   32G   0% /sys/fs/cgroup
+shm              64M     0   64M   0% /dev/shm
+/dev/nvme0n1p3  930G   31G  852G   4% /etc/hosts
+tmpfs            32G     0   32G   0% /proc/asound
+tmpfs            32G     0   32G   0% /proc/acpi
+tmpfs            32G     0   32G   0% /proc/scsi
+tmpfs            32G     0   32G   0% /sys/firmware
+sh-4.4# exit
+exit
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev             32G     0   32G   0% /dev
+tmpfs           6.3G  3.1M  6.3G   1% /run
+/dev/nvme0n1p3  930G   31G  852G   4% /
+tmpfs            32G  136M   32G   1% /dev/shm
+tmpfs           5.0M  4.0K  5.0M   1% /run/lock
+tmpfs            32G     0   32G   0% /sys/fs/cgroup
+/dev/loop0      128K  128K     0 100% /snap/bare/5
+/dev/loop1      114M  114M     0 100% /snap/core/13425
+/dev/loop3       55M   55M     0 100% /snap/core18/1754
+/dev/loop2      219M  219M     0 100% /snap/gnome-3-34-1804/77
+/dev/loop4       62M   62M     0 100% /snap/core20/1587
+/dev/loop7       50M   50M     0 100% /snap/snap-store/433
+/dev/loop5      243M  243M     0 100% /snap/gnome-3-34-1804/27
+/dev/loop8      401M  401M     0 100% /snap/gnome-3-38-2004/112
+/dev/loop6       55M   55M     0 100% /snap/snap-store/558
+/dev/loop10     142M  142M     0 100% /snap/chromium/2051
+/dev/loop9       56M   56M     0 100% /snap/core18/2538
+/dev/loop11      63M   63M     0 100% /snap/gtk-common-themes/1506
+/dev/loop14      92M   92M     0 100% /snap/gtk-common-themes/1535
+/dev/loop12     222M  222M     0 100% /snap/code/102
+/dev/loop13     134M  134M     0 100% /snap/chromium/2036
+/dev/nvme0n1p1  861M   46M  816M   6% /boot/efi
+tmpfs           6.3G   64K  6.3G   1% /run/user/1001
+/dev/loop15     224M  224M     0 100% /snap/code/103
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ sudo su -
+[sudo] password for jegan: 
+root@dell-precision-7670:~# cd /var/lib/docker
+root@dell-precision-7670:/var/lib/docker# ls
+buildkit  containers  image  network  overlay2  plugins  runtimes  swarm  tmp  trust  volumes
+root@dell-precision-7670:/var/lib/docker# cd volumes/
+root@dell-precision-7670:/var/lib/docker/volumes# ls
+17e0ff685078422080e74a3dc76f834980211ba9dec889a4aa5c6220e78b8f66  backingFsBlockDev
+801a2e2e7cb0734ce0d534026563640ffc9d614e33e586a34704cd6e8a661f3d  metadata.db
+809fd2709821011a787178ec6f08985fa884f601f39733193add2124bfd370c5
+root@dell-precision-7670:/var/lib/docker/volumes# docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                               NAMES
+836943c50166   mysql:latest   "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   3306/tcp, 33060/tcp                 db
+a46601633de8   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours     0.0.0.0:80->80/tcp, :::80->80/tcp   lb
+e1ba3ee3ca7f   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours     80/tcp                              web3
+98d61adfb0bd   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours     80/tcp                              web2
+2b22ed87b874   nginx:latest   "/docker-entrypoint.…"   2 hours ago     Up 2 hours     80/tcp                              web1
+root@dell-precision-7670:/var/lib/docker/volumes# cd 17e0ff685078422080e74a3dc76f834980211ba9dec889a4aa5c6220e78b8f66/
+root@dell-precision-7670:/var/lib/docker/volumes/17e0ff685078422080e74a3dc76f834980211ba9dec889a4aa5c6220e78b8f66# ls
+_data
+root@dell-precision-7670:/var/lib/docker/volumes/17e0ff685078422080e74a3dc76f834980211ba9dec889a4aa5c6220e78b8f66# cd _data/
+root@dell-precision-7670:/var/lib/docker/volumes/17e0ff685078422080e74a3dc76f834980211ba9dec889a4aa5c6220e78b8f66/_data# ls
+ auto.cnf        binlog.index      client-key.pem       ibdata1         mysql                private_key.pem   sys
+ binlog.000001   ca-key.pem       '#ib_16384_0.dblwr'   ibtmp1          mysql.ibd            public_key.pem    tektutor
+ binlog.000002   ca.pem           '#ib_16384_1.dblwr'  '#innodb_redo'   mysql.sock           server-cert.pem   undo_001
+ binlog.000003   client-cert.pem   ib_buffer_pool      '#innodb_temp'   performance_schema   server-key.pem    undo_002
+root@dell-precision-7670:/var/lib/docker/volumes/17e0ff685078422080e74a3dc76f834980211ba9dec889a4aa5c6220e78b8f66/_data# ^C
+root@dell-precision-7670:/var/lib/docker/volumes/17e0ff685078422080e74a3dc76f834980211ba9dec889a4aa5c6220e78b8f66/_data# exit
+logout
+jegan@dell-precision-7670:~/openshift-aug-2022/Day1$ ls -l /tmp/mysql
+total 99680
+-rw-r----- 1 systemd-coredump systemd-coredump       56 Aug  8 17:44  auto.cnf
+-rw-r----- 1 systemd-coredump systemd-coredump  3025278 Aug  8 17:44  binlog.000001
+-rw-r----- 1 systemd-coredump systemd-coredump      918 Aug  8 17:46  binlog.000002
+-rw-r----- 1 systemd-coredump systemd-coredump      157 Aug  8 17:46  binlog.000003
+-rw-r----- 1 systemd-coredump systemd-coredump       48 Aug  8 17:46  binlog.index
+-rw------- 1 systemd-coredump systemd-coredump     1680 Aug  8 17:44  ca-key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Aug  8 17:44  ca.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Aug  8 17:44  client-cert.pem
+-rw------- 1 systemd-coredump systemd-coredump     1680 Aug  8 17:44  client-key.pem
+-rw-r----- 1 systemd-coredump systemd-coredump   196608 Aug  8 17:48 '#ib_16384_0.dblwr'
+-rw-r----- 1 systemd-coredump systemd-coredump  8585216 Aug  8 17:44 '#ib_16384_1.dblwr'
+-rw-r----- 1 systemd-coredump systemd-coredump     5660 Aug  8 17:44  ib_buffer_pool
+-rw-r----- 1 systemd-coredump systemd-coredump 12582912 Aug  8 17:46  ibdata1
+-rw-r----- 1 systemd-coredump systemd-coredump 12582912 Aug  8 17:46  ibtmp1
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Aug  8 17:46 '#innodb_redo'
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Aug  8 17:46 '#innodb_temp'
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Aug  8 17:44  mysql
+-rw-r----- 1 systemd-coredump systemd-coredump 31457280 Aug  8 17:46  mysql.ibd
+lrwxrwxrwx 1 systemd-coredump systemd-coredump       27 Aug  8 17:46  mysql.sock -> /var/run/mysqld/mysqld.sock
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Aug  8 17:44  performance_schema
+-rw------- 1 systemd-coredump systemd-coredump     1676 Aug  8 17:44  private_key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump      452 Aug  8 17:44  public_key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Aug  8 17:44  server-cert.pem
+-rw------- 1 systemd-coredump systemd-coredump     1676 Aug  8 17:44  server-key.pem
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Aug  8 17:44  sys
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Aug  8 17:45  tektutor
+-rw-r----- 1 systemd-coredump systemd-coredump 16777216 Aug  8 17:48  undo_001
+-rw-r----- 1 systemd-coredump systemd-coredump 16777216 Aug  8 17:48  undo_002
+
+</pre>
