@@ -443,3 +443,20 @@ jegan@dell-precision-7670:~$ docker ps
 CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS        PORTS     NAMES
 af4568a9883d   ubuntu:16.04   "/bin/bash"   About a minute ago   Up 1 second             ubuntu1
 </pre>
+
+## Getting inside a running container
+```
+docker exec -it ubuntu1 bash
+```
+
+Expected output
+<pre>
+jegan@dell-precision-7670:~$ docker exec -it ubuntu1 bash
+root@ubuntu1:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@ubuntu1:/# exit
+exit
+jegan@dell-precision-7670:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND       CREATED         STATUS         PORTS     NAMES
+af4568a9883d   ubuntu:16.04   "/bin/bash"   6 minutes ago   Up 5 minutes             ubuntu1
+</pre>
