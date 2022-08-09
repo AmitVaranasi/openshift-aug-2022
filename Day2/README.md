@@ -467,3 +467,17 @@ worker-2.ocp.tektutor.org   Ready    worker          7h1m    v1.23.5+012e945   1
 NAME                     READY   STATUS             RESTARTS       AGE
 nginx-7c658794b9-pd8gj   0/1     CrashLoopBackOff   7 (104s ago)   13m
 </pre>
+
+## Deleting deployment and listing deployment, replicaset and pods with single command
+```
+oc delete deploy/nginx
+oc get deploy,rs,po
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc delete deploy/nginx</b>
+deployment.apps "nginx" deleted
+(jegan@tektutor.org)$ <b>oc get deploy,rs,po</b>
+No resources found in jegan namespace.
+</pre>
