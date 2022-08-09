@@ -1,5 +1,10 @@
 # Day 2 - OpenShift
 
+## Container Runtime
+Example
+  - runc is a Container runtime used by Docker Container Engine
+  - CRI-O is a Container runtime used by Podman Container Engine
+
 ## Container Orchestration Platform
 - has cluster of servers
 - servers are placed in cross-geo locations
@@ -29,6 +34,16 @@
 - Azure takes care of security aspects of your RedHat Openshift
 - Azure decides which version of Openshift will be deployed, patching the OS are taken care by Azure
 
+## Orchestration Cluster
+- it has many Servers with Operating System installed on those Servers
+- the Servers are normally referred as Nodes
+- Node are of two type
+  1. Master Node
+  2. Worker Node 
+- Node can be a Physical Server or Virtual Machine or Cloud based ec2 instance
+- Node whether it is of type Master or Worker has Container Runtime and Container Engine installed
+
+
 ## Google Kubernetes
 - opensource Orchestration Platform
 - supports
@@ -44,8 +59,14 @@
 - Kubernetes Operators is a collection of one of more Custom Resources with one or more Custom Controllers.
 - Through Kubernetes Operators one can deploy complex application within Kubernetes
 
+## RedHat Enterprise Linux Core OS (RHCOS)
+- is an optimized Operating System that is owned by RedHat for RedHat OpenShift Orchestration Platform
+- it comes with pre-installed CRI-O Container Runtime and Podman Container Engine
+- each version of RHCOS supports different versions of CRI-O and Podman
+
 ## RedHat OpenShift
 - RedHat's distribution of Kubernetes
+- supports only CRI-O Container Runtime and Podman Container Engine
 - Developed on top of Kubernetes with many additional features
 - supports Private Container Registry out of the box unlike Kubernetes(we have setup private registry manually and configure k8s to use that registry)
 - supports CI/CD out of the box
@@ -54,4 +75,5 @@
 - It's possible to deploy application from source code ( java, nodjs source code ) - S2I
 - It's possible to deploy application from Container Image
 - It's possible to deploy application using Declarative script(manifest files) i.e YAML file
-- 
+- RedHat OpenShift Master Nodes only supports RedHat Enterprise Linux Core OS Operating System(RHCOS)
+- RedHat OpenShift Worker Nodes supports either RHEL or RHCOS
