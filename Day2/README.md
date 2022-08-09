@@ -403,3 +403,23 @@ Expected output
 (jegan@tektutor.org)$ <b>oc create deployment nginx --image=nginx:latest</b>
 deployment.apps/nginx created
 </pre>
+
+## Listing deployments, replicaset and pods
+```
+oc get deployments
+oc get replicasets
+oc get pods
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get deployments</b>
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   0/1     1            0           2m7s
+(jegan@tektutor.org)$ <b>oc get replicasets</b>
+NAME               DESIRED   CURRENT   READY   AGE
+nginx-7c658794b9   1         1         0       2m14s
+(jegan@tektutor.org)$ <b>oc get pods</b>
+NAME                     READY   STATUS   RESTARTS      AGE
+nginx-7c658794b9-pd8gj   0/1     Error    4 (66s ago)   2m17s
+</pre>
