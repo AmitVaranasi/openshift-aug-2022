@@ -117,6 +117,8 @@ worker-2.ocp.tektutor.org   Ready    worker          4h30m   v1.23.5+012e945
 
 
 ## Listing the OpenShift projects
+Kubernetes namespace is referred as Project in OpenShift.  Technically, namespace and project are one and same.
+
 ```
 oc get projects
 ```
