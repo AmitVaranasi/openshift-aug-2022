@@ -546,3 +546,19 @@ NAME                     READY   STATUS              RESTARTS   AGE
 nginx-78644964b4-dsfss   0/1     ContainerCreating   0          8s
 nginx-78644964b4-dsfss   1/1     Running             0          18s
 </pre>
+
+## Opening a shell inside Pod 
+```
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc rsh deploy/hello</b>
+sh-4.4$ ls
+app.jar  boot  etc   lib    media  opt	 root  sbin  sys  usr
+bin	 dev   home  lib64  mnt    proc  run   srv   tmp  var
+sh-4.4$ <b>curl localhost:8080</b>
+Greetings from Spring Boot!
+</pre>
+
+
