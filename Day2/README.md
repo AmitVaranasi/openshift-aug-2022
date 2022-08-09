@@ -567,6 +567,43 @@ af03cc812cef: Mounted from tektutor/hello
 1.0: digest: sha256:151d04fe2c676e980df8d3331af4ebf080a88799fe6f8d2db026941d47cb9338 size: 1166
 
 </pre>
+
+## Deploying your application from your Custom image from Docker Hub
+<pre>
+(jegan@tektutor.org)$ oc create deployment hello --image=tektutor/spring-ms:1.0 --replicas=3
+deployment.apps/hello created
+(jegan@tektutor.org)$ oc get deploy,rs,po
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/hello   0/3     3            0           6s
+deployment.apps/nginx   1/1     1            1           33m
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/hello-df7774bbb    3         3         0       6s
+replicaset.apps/nginx-78644964b4   1         1         1       33m
+
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/hello-df7774bbb-5c8lq    0/1     ContainerCreating   0          6s
+pod/hello-df7774bbb-rvjsj    0/1     ContainerCreating   0          6s
+pod/hello-df7774bbb-strj9    0/1     ContainerCreating   0          6s
+pod/nginx-78644964b4-dsfss   1/1     Running             0          33m
+(jegan@tektutor.org)$ oc get po -w
+NAME                     READY   STATUS              RESTARTS   AGE
+hello-df7774bbb-5c8lq    0/1     ContainerCreating   0          12s
+hello-df7774bbb-rvjsj    0/1     ContainerCreating   0          12s
+hello-df7774bbb-strj9    0/1     ContainerCreating   0          12s
+nginx-78644964b4-dsfss   1/1     Running             0          33m
+hello-df7774bbb-rvjsj    1/1     Running             0          78s
+hello-df7774bbb-strj9    1/1     Running             0          81s
+hello-df7774bbb-5c8lq    1/1     Running             0          84s
+^C(jegan@tektutor.org)$ oc get po
+NAME                     READY   STATUS    RESTARTS   AGE
+hello-df7774bbb-5c8lq    1/1     Running   0          87s
+hello-df7774bbb-rvjsj    1/1     Running   0          87s
+hello-df7774bbb-strj9    1/1     Running   0          87s
+nginx-78644964b4-dsfss   1/1     Running   0          34m
+</pre>
+
+
 ## Finding the IP address of Pods and the node they are running
 ```
 oc get po -o wide
