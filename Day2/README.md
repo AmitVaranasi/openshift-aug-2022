@@ -90,3 +90,25 @@ Client Version: 4.10.25
 Server Version: 4.10.25
 Kubernetes Version: v1.23.5+012e945
 </pre>
+
+## Listing OpenShift nodes
+```
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get nodes</b>
+NAME                        STATUS   ROLES           AGE     VERSION
+master-1.ocp.tektutor.org   Ready    master,worker   4h44m   v1.23.5+012e945
+master-2.ocp.tektutor.org   Ready    master,worker   4h45m   v1.23.5+012e945
+master-3.ocp.tektutor.org   Ready    master,worker   4h51m   v1.23.5+012e945
+worker-1.ocp.tektutor.org   Ready    worker          4h30m   v1.23.5+012e945
+worker-2.ocp.tektutor.org   Ready    worker          4h30m   v1.23.5+012e945
+(jegan@tektutor.org)$ <b>kubectl get nodes</b>
+NAME                        STATUS   ROLES           AGE     VERSION
+master-1.ocp.tektutor.org   Ready    master,worker   4h44m   v1.23.5+012e945
+master-2.ocp.tektutor.org   Ready    master,worker   4h45m   v1.23.5+012e945
+master-3.ocp.tektutor.org   Ready    master,worker   4h51m   v1.23.5+012e945
+worker-1.ocp.tektutor.org   Ready    worker          4h30m   v1.23.5+012e945
+worker-2.ocp.tektutor.org   Ready    worker          4h30m   v1.23.5+012e945
+</pre>
