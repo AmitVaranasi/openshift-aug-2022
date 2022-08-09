@@ -77,3 +77,16 @@ Example
 - It's possible to deploy application using Declarative script(manifest files) i.e YAML file
 - RedHat OpenShift Master Nodes only supports RedHat Enterprise Linux Core OS Operating System(RHCOS)
 - RedHat OpenShift Worker Nodes supports either RHEL or RHCOS
+
+## Finding OpenShift version
+```
+oc version
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc version</b>
+Client Version: 4.10.25
+Server Version: 4.10.25
+Kubernetes Version: v1.23.5+012e945
+</pre>
