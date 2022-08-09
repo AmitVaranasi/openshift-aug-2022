@@ -325,3 +325,18 @@ Expected output
 Using project "jegan" on server "https://api.ocp.tektutor.org:6443".
 </pre>
 
+## Switching between different projects
+```
+oc project openshift
+oc project jegan
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc project openshift</b>
+Now using project "openshift" on server "https://api.ocp.tektutor.org:6443".
+(jegan@tektutor.org)$ <b>oc project jegan</b>
+Now using project "jegan" on server "https://api.ocp.tektutor.org:6443".
+</pre>
+
+Make sure you switch back to your project.
