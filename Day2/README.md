@@ -294,3 +294,24 @@ oc create deployment nginx --image=bitnami/nginx:latest --replicas=3
 ### OC
 - is a client tool used to create and manage Openshift resources in OpenShift
 - it makes REST call to API Server
+
+## Creating a project
+In the below command, replace 'jegan' with your name.
+```
+oc new-project jegan
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc new-project jegan</b>
+Now using project "jegan" on server "https://api.ocp.tektutor.org:6443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app rails-postgresql-example
+
+to build a new example application in Ruby. Or use kubectl to deploy a simple Kubernetes application:
+
+    kubectl create deployment hello-node --image=k8s.gcr.io/e2e-test-images/agnhost:2.33 -- /agnhost serve-hostname
+</pre>
+
