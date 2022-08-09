@@ -392,3 +392,14 @@ Node Selector:		<none>
 Quota:			<none>
 Resource limits:	<none>
 </pre>
+
+## Creating new deployment within your active project(namespace)
+```
+oc create deployment nginx --image=nginx:latest
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc create deployment nginx --image=nginx:latest</b>
+deployment.apps/nginx created
+</pre>
