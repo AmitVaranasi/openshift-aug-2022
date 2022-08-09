@@ -269,11 +269,28 @@ oc create deployment nginx --image=bitnami/nginx:latest --replicas=3
 - within container, application are deployment ( tomcat,mysql, nginx these are applications )
 - recommended best practice,only one application should be there in a Pod
 - Pods are scheduled by Scheduler onto some Node
+- every Pod has a Network Stack and Network Interface Card (NIC)
 
 ### Kubelet
 - is a daemon service that interacts with the Container Runtime on the current node/server where kubelet is running
 - kubelet downloads the required container image and creates the Pod containers
 - kubelet frequently reports the status of Pod container status to the API server
 - kubelet also monitors the health of POds running on the node and ensures they are healthy
+- kubelet will there on every node ( master and worker nodes )
 
+### kube-proxy
+- is a Pod that runs one instance per node (both master and worker nodes)
+- provides load-balancing a group of similar Pods
 
+### Core DNS
+- is a Pod that runs usually on master nodes but in some installation, it might even run on worker node
+- Core DNS offers Service Discovery i.e application will be connect to group of Pods by Service name
+
+### Kubectl
+- is a client tool used to create and manage deployments and services in Kubernetes
+- it also works in OpenShift
+- it make REST call to API Server
+
+### OC
+- is a client tool used to create and manage Openshift resources in OpenShift
+- it makes REST call to API Server
