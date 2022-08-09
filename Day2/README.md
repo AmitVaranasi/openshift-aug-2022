@@ -18,3 +18,27 @@
    - OKD(Origin) - Opensource variant of OpenShift
    - AWS ROSA ( Managed RedHat OpenShift in AWS )
    - Azure OpenShift ( Managed RedHat OpenShift in Azure )
+
+## Azure OpenShift
+- managed RedHat OpenShift cluster that works in Microsoft Azure cloud
+- RedHat OpenShift installation is taken care by Azure
+- Azure decides the hardware on which they are going deploy RedHat OpenShift
+- Azure decides the Operating System that they are going to use in Master/Workers Nodes
+- Azure decides what Load Balancer they are going to support
+- Azure takes care of setting up Private Container Registry
+- Azure takes care of security aspects of your RedHat Openshift
+- Azure decides which version of Openshift will be deployed, patching the OS are taken care by Azure
+
+## Google Kubernetes
+- opensource Orchestration Platform
+- supports
+   - Docker
+   - Podman
+   - Any Container that supports OCI
+
+
+## RedHat OpenShift
+- RedHat's distribution of Kubernetes
+- Developed on top of Kubernetes with many additional features
+- supports Private Container Registry out of the box unlike Kubernetes(we have setup private registry manually and configure k8s to use that registry)
+- supports CI/CD out of the box
