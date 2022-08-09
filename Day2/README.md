@@ -510,3 +510,15 @@ nginx-74b5c9855f-v4kw5   0/1     ImagePullBackOff   0          52s
 nginx-74b5c9855f-v4kw5   0/1     ErrImagePull       0          67s
 nginx-74b5c9855f-v4kw5   0/1     ImagePullBackOff   0          82s
 </pre>
+
+## Pod Lifecyle
+1. Pending - waiting to be scheduled
+2. Running - Scheduled onto some node and Pod is running successfuly on the scheduled node
+3. Succeeded - containers running within the Pod have exited with success code.
+4. Failed - containers in the Pod terminated due to some error.
+5. Unknown - Unknown error, may be it is crashing due to memory issue, application bug, etc.,
+
+### Container States
+1. Waiting - some resource that is required is not available yet, so container is waiting for the dependent resource.
+2. Running - container is created and started successfuly
+3. Terminated - due to some application error, or Core OS restriction, the container got terminated
