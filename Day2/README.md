@@ -365,3 +365,30 @@ to build a new example application in Ruby. Or use kubectl to deploy a simple Ku
 
     kubectl create deployment hello-node --image=k8s.gcr.io/e2e-test-images/agnhost:2.33 -- /agnhost serve-hostname
 </pre>
+
+
+## Find metadata about your project
+```
+oc describe <resource-type> <resource-name>
+oc describe project jegan
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc describe project jegan</b>
+Name:			jegan
+Created:		2 minutes ago
+Labels:			kubernetes.io/metadata.name=jegan
+Annotations:		openshift.io/description=
+			openshift.io/display-name=
+			openshift.io/requester=system:admin
+			openshift.io/sa.scc.mcs=s0:c24,c19
+			openshift.io/sa.scc.supplemental-groups=1000590000/10000
+			openshift.io/sa.scc.uid-range=1000590000/10000
+Display Name:		<none>
+Description:		<none>
+Status:			Active
+Node Selector:		<none>
+Quota:			<none>
+Resource limits:	<none>
+</pre>
