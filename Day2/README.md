@@ -547,6 +547,42 @@ nginx-78644964b4-dsfss   0/1     ContainerCreating   0          8s
 nginx-78644964b4-dsfss   1/1     Running             0          18s
 </pre>
 
+## Pushing locally build docker image to Docker Hub
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ docker login
+Authenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /home/jegan/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+(jegan@tektutor.org)$ docker push tektutor/spring-ms:1.0
+The push refers to repository [docker.io/tektutor/spring-ms]
+297ca198d002: Pushed 
+fa210a00f29e: Mounted from tektutor/hello 
+af03cc812cef: Mounted from tektutor/hello 
+7c1c8ad8e410: Mounted from tektutor/hello 
+1.0: digest: sha256:151d04fe2c676e980df8d3331af4ebf080a88799fe6f8d2db026941d47cb9338 size: 1166
+
+</pre>
+## Finding the IP address of Pods and the node they are running
+```
+oc get po -o wide
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc get po -o wide
+NAME                     READY   STATUS    RESTARTS   AGE   IP           NODE                        NOMINATED NODE   READINESS GATES
+hello-df7774bbb-5c8lq    1/1     Running   0          96s   10.129.1.3   master-2.ocp.tektutor.org   <none>           <none>
+hello-df7774bbb-rvjsj    1/1     Running   0          96s   10.128.2.8   worker-1.ocp.tektutor.org   <none>           <none>
+hello-df7774bbb-strj9    1/1     Running   0          96s   10.131.0.9   worker-2.ocp.tektutor.org   <none>           <none>
+nginx-78644964b4-dsfss   1/1     Running   0          35m   10.131.0.7   worker-2.ocp.tektutor.org   <none>           <none>
+</pre>
+
+
 ## Opening a shell inside Pod 
 ```
 ```
