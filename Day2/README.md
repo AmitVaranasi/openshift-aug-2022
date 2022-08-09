@@ -340,3 +340,28 @@ Now using project "jegan" on server "https://api.ocp.tektutor.org:6443".
 </pre>
 
 Make sure you switch back to your project.
+
+## Deleting a project
+```
+oc delete project jegan
+```
+
+Expected output
+<pre>
+jegan@tektutor.org)$ <b>oc project openshift</b>
+Now using project "openshift" on server "https://api.ocp.tektutor.org:6443".
+(jegan@tektutor.org)$ <b>oc project jegan</b>
+Now using project "jegan" on server "https://api.ocp.tektutor.org:6443".
+(jegan@tektutor.org)$ <b>oc delete project jegan</b>
+project.project.openshift.io "jegan" deleted
+(jegan@tektutor.org)$ <b>oc new-project jegan</b>
+Already on project "jegan" on server "https://api.ocp.tektutor.org:6443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app rails-postgresql-example
+
+to build a new example application in Ruby. Or use kubectl to deploy a simple Kubernetes application:
+
+    kubectl create deployment hello-node --image=k8s.gcr.io/e2e-test-images/agnhost:2.33 -- /agnhost serve-hostname
+</pre>
