@@ -93,6 +93,8 @@ Kubernetes Version: v1.23.5+012e945
 
 ## Listing OpenShift nodes
 ```
+oc get nodes
+kubectl get nodes
 ```
 
 Expected output
