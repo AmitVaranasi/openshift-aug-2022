@@ -35,10 +35,23 @@
    - Docker
    - Podman
    - Any Container that supports OCI
-
+- applications are deployed from Container Image
+- applications can also deployed via declarative manifest files that refers pre-built Container Image
+- Kubernetes support adding your own Custom Resources by defining Custom Resource Definitions(CRD)
+- Through CRDs, one can extend Kubernetes API to support many new features
+- a bunch of Controllers to monitor and self-heal applications
+- also supports Creating and deploying your own Custom Controllers to manage your Custom Resource (CR)
+- Kubernetes Operators is a collection of one of more Custom Resources with one or more Custom Controllers.
+- Through Kubernetes Operators one can deploy complex application within Kubernetes
 
 ## RedHat OpenShift
 - RedHat's distribution of Kubernetes
 - Developed on top of Kubernetes with many additional features
 - supports Private Container Registry out of the box unlike Kubernetes(we have setup private registry manually and configure k8s to use that registry)
 - supports CI/CD out of the box
+- supports setting up your own Private GitHub like version control within OpenShift
+- Backed by RedHat, hence you can get Support around the globe
+- It's possible to deploy application from source code ( java, nodjs source code ) - S2I
+- It's possible to deploy application from Container Image
+- It's possible to deploy application using Declarative script(manifest files) i.e YAML file
+- 
