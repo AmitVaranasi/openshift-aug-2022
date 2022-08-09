@@ -296,7 +296,7 @@ oc create deployment nginx --image=bitnami/nginx:latest --replicas=3
 - it makes REST call to API Server
 
 ## Creating a project
-In the below command, replace 'jegan' with your name.
+In the below command, replace 'jegan' with your name.  The project name must be all lowercase.
 ```
 oc new-project jegan
 ```
@@ -313,5 +313,15 @@ You can add applications to this project with the 'new-app' command. For example
 to build a new example application in Ruby. Or use kubectl to deploy a simple Kubernetes application:
 
     kubectl create deployment hello-node --image=k8s.gcr.io/e2e-test-images/agnhost:2.33 -- /agnhost serve-hostname
+</pre>
+
+## Finding the current active project 
+```
+oc project
+```
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc project</b>
+Using project "jegan" on server "https://api.ocp.tektutor.org:6443".
 </pre>
 
