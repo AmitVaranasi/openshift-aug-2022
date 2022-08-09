@@ -481,3 +481,32 @@ deployment.apps "nginx" deleted
 (jegan@tektutor.org)$ <b>oc get deploy,rs,po</b>
 No resources found in jegan namespace.
 </pre>
+
+## Understanding ImagePullBackOff error
+In the below command, note the image name, it is an invalid image. Hence it leads to ImagePullBackOff error.
+```
+oc create deployment nginx --image=ngin:latest
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc create deployment nginx --image=ngin:latest
+deployment.apps/nginx created
+(jegan@tektutor.org)$ oc get deploy,rs,po
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   0/1     1            0           5s
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-74b5c9855f   1         1         0       5s
+
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-74b5c9855f-v4kw5   0/1     ContainerCreating   0          5s
+(jegan@tektutor.org)$ oc get po -w
+NAME                     READY   STATUS         RESTARTS   AGE
+nginx-74b5c9855f-v4kw5   0/1     ErrImagePull   0          9s
+nginx-74b5c9855f-v4kw5   0/1     ImagePullBackOff   0          22s
+nginx-74b5c9855f-v4kw5   0/1     ErrImagePull       0          37s
+nginx-74b5c9855f-v4kw5   0/1     ImagePullBackOff   0          52s
+nginx-74b5c9855f-v4kw5   0/1     ErrImagePull       0          67s
+nginx-74b5c9855f-v4kw5   0/1     ImagePullBackOff   0          82s
+</pre>
