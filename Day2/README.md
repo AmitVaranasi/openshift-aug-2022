@@ -522,3 +522,27 @@ nginx-74b5c9855f-v4kw5   0/1     ImagePullBackOff   0          82s
 1. Waiting - some resource that is required is not available yet, so container is waiting for the dependent resource.
 2. Running - container is created and started successfuly
 3. Terminated - due to some application error, or Core OS restriction, the container got terminated
+
+## Creating a nginx deployment with bitnami image from Docker Hub
+```
+oc create deployment nginx --image=bitnami/nginx:latest
+```
+
+Expected output
+<pre>
+jegan@tektutor.org)$ oc create deployment nginx --image=bitnami/nginx:latest
+deployment.apps/nginx created
+(jegan@tektutor.org)$ oc get deploy,rs,po
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   0/1     1            0           5s
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-78644964b4   1         1         0       5s
+
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-78644964b4-dsfss   0/1     ContainerCreating   0          5s
+(jegan@tektutor.org)$ oc get po -w
+NAME                     READY   STATUS              RESTARTS   AGE
+nginx-78644964b4-dsfss   0/1     ContainerCreating   0          8s
+nginx-78644964b4-dsfss   1/1     Running             0          18s
+</pre>
