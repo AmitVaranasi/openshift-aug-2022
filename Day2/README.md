@@ -193,3 +193,87 @@ openshift-user-workload-monitoring                                Active
 openshift-vsphere-infra                                           Active
 </pre>
 
+## Control Plane Components
+Control Plane Components are there only in the Master Node.
+
+1. API Server
+2. etcd key/value datastore 
+3. Scheduler
+4. Controller Managers
+
+### API Server
+- implements all the Orchestration functionalities as REST API
+- all the OpenShift components communicate only to API Server, they are not allowed to communicate with each other directly
+- stores all cluster state and application state inside the etcd database
+- API Server is the only components that is allowed to talk to etcd database
+- anytime there is an update that is one in etcd database, it results in triggering an event
+   - some new entry created in etcd
+   - some existing entry is updated in etcd
+   - some existing entry is deleted from etcd
+- Controllers register themselves to certain types of events
+- Based on the events the Controller act
+
+### Scheduler
+- is aware of only API Server
+- Scheduler won't directly communicate to etcd datastore or other OpenShift components
+- Scheduler is the one which is responsible to identify a health node where application Pods can be deployed
+- Scheduler then send the scheduling recommendations to API Server via REST call
+
+### etcd
+- key/value database
+- cluster state and application states are stored in this
+
+### Controllers
+- Controller provide High Availability
+- They help in deploying and managing appliction
+- Scale up/down
+- Rolling update
+
+### OpenShift resources
+- Deployment (K8s resource)
+- ReplicaSet (K8s resource)
+- Pod (K8s resource)
+- Job (K8s resource)
+- DaemonSet (K8s resource)
+- StatefulSet (K8s resource)
+- Build ( OpenShift resource - Custom Resource added by OpenShift )
+- ImageStream ( OpenShift resource  - Custom Resource added by OpenShift ) 
+- DeploymentConfig ( OpenShift resource - Custom Resource added by OpenShift )
+
+### Deployment command looks like this
+```
+oc create deployment nginx --image=bitnami/nginx:latest --replicas=3
+```
+
+### Deployment
+- This is a JSON/YAML definition which is stored in etcd database
+- The deployment is managed by Deployment Controller
+- when we applications, they are deployed as Deployment with Kubernetes/OpenShift
+- Deployment Controller creates ReplicaSet, which is then managed by ReplicaSet Controller
+- Deployment has one or more ReplicaSet(s)
+
+### ReplicaSet
+- This is a JSON/YAML definition which is stored in etcd database
+- The ReplicaSet is managed by ReplicaSet Controller
+- ReplicaSet capture details like
+    - How many Pod instances are desired?
+- ReplicaSet Controller reads the ReplicaSet definition and learns the desired Pod instance count
+- ReplicaSet Controller creates so many Pod definition as indicated in the ReplicaSet
+- ReplicaSet Controller ensures the desired Pod count matches with the actual Pod count, whenever a Pod crashes, it is the responsibility of ReplicaSet Controller to ensure the desired and actual Pods are equal
+- ReplicaSet has one or more Pods
+
+### Pod
+- is a collection of one or more Containers
+- IP address is assigned on the Pod level not on the Container level
+- If two containers are in the same Pod, there will be sharing IP Address of the Pod
+- within container, application are deployment ( tomcat,mysql, nginx these are applications )
+- recommended best practice,only one application should be there in a Pod
+- Pods are scheduled by Scheduler onto some Node
+
+### Kubelet
+- is a daemon service that interacts with the Container Runtime on the current node/server where kubelet is running
+- kubelet downloads the required container image and creates the Pod containers
+- kubelet frequently reports the status of Pod container status to the API server
+- kubelet also monitors the health of POds running on the node and ensures they are healthy
+
+
