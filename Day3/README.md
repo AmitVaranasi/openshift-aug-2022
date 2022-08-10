@@ -498,3 +498,53 @@ WARNING: Kubernetes configuration file is group-readable. This is insecure. Loca
 version.BuildInfo{Version:"v3.9.0", GitCommit:"7ceeda6c585217a19a1131663d8cd1f7d641b2a7", GitTreeState:"clean", GoVersion:"go1.17.5"}
 </pre>
 
+## Creating Custom wordpress Helm chart
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/HELM
+
+helm create wordpress
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ helm create wordpress
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/jegan/.kube/config
+Creating wordpress
+(jegan@tektutor.org)$ tree wordpress/
+wordpress/
+├── charts
+├── Chart.yaml
+├── templates
+│   ├── deployment.yaml
+│   ├── _helpers.tpl
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── NOTES.txt
+│   ├── serviceaccount.yaml
+│   ├── service.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+3 directories, 10 files
+</pre>
+
+## Creating wordpress helm chart
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day3/HELM
+helm package wordpress
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>helm package wordpress</b>
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/jegan/.kube/config
+Successfully packaged chart and saved it to: /home/jegan/openshift-aug-2022/Day3/HELM/wordpress-0.1.0.tgz
+(jegan@tektutor.org)$ <b>ls</b>
+wordpress  <b>wordpress-0.1.0.tgz</b>
+</pre>
