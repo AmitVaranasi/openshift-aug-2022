@@ -402,4 +402,5 @@ cd Day3/mysql
 oc apply -f mysql-deploy.yml
 ```
 
-<iframe width="500" height="700" src="https://youtu.be/YIQa-LNBcJA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## Understanding Persistent Volume and Claim in a funny way
+<iframe width="500" height="700" src="https://youtube/YIQa-LNBcJA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
