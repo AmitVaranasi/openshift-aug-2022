@@ -256,6 +256,32 @@ No resources found in jegan namespace.
 (jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=NodePort --port=8080 --dry-run=client -o yaml > nginx-nodeport-svc.yml</b>
 (jegan@tektutor.org)$ <b>ls</b>
 nginx-clusterip-svc.yml  nginx-deploy.yml  <b>nginx-nodeport-svc.yml</b>  README.md
+
+(jegan@tektutor.org)$ <b>oc get svc</b>
+No resources found in jegan namespace.
+(jegan@tektutor.org)$ <b>oc apply -f nginx-nodeport-svc.yml</b>
+service/nginx created
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+nginx   NodePort   172.30.252.33   <none>        8080:31405/TCP   2s
+(jegan@tektutor.org)$ <b>oc describe svc/nginx</b>
+Name:                     nginx
+Namespace:                jegan
+Labels:                   app=nginx
+Annotations:              <none>
+Selector:                 app=nginx
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.30.252.33
+IPs:                      172.30.252.33
+Port:                     <unset>  8080/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  31405/TCP
+Endpoints:                10.128.0.111:8080,10.128.2.17:8080,10.128.2.18:8080 + 5 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
 </pre>
 
 ## Creating LoadBalancer Service using declarative style
