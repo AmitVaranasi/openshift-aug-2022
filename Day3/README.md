@@ -1,5 +1,32 @@
 # Day 3
 
+## Login to OpenShift from command line
+<pre>
+(jegan@tektutor.org)$ cat ~/openshift.txt 
+RedHat OpenShift CLI Login URL
+++++++++++++++++++++++++++++++
+https://api.ocp.tektutor.org:6443 
+
+RedHat OpenShift web-console 
+++++++++++++++++++++++++++++
+https://console-openshift-console.apps.ocp.tektutor.org 
+
+Login Credentials
+++++++++++++++++++++++++++++++++++++++
++ user    | kubeadmin		     +
++ password| 6ssow-q4UhD-82pCd-FE2XL  +
+++++++++++++++++++++++++++++++++++++++
+(jegan@tektutor.org)$ oc login -u kubeadmin https://api.ocp.tektutor.org:6443
+Authentication required for https://api.ocp.tektutor.org:6443 (openshift)
+Username: kubeadmin
+Password: 
+Login successful.
+
+You have access to 66 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "jegan".
+</pre>
+
 ## Creating NodePort external Service
 Delete any existing service for nginx
 ```
