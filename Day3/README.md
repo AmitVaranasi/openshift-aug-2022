@@ -284,6 +284,17 @@ External Traffic Policy:  Cluster
 Events:                   <none>
 </pre>
 
+## Deleting NodePort service in declarative style
+<pre>
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+nginx   NodePort   172.30.252.33   <none>        8080:31405/TCP   2m30s
+(jegan@tektutor.org)$ <b>oc delete -f nginx-nodeport-svc.yml</b>
+service "nginx" deleted
+(jegan@tektutor.org)$ <b>oc get svc</b>
+No resources found in jegan namespace.
+</pre>
+
 ## Creating LoadBalancer Service using declarative style
 <pre>
 (jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=LoadBalancer --port=8080 --dry-run=client -o yaml > nginx-lb-svc.yml</b>
