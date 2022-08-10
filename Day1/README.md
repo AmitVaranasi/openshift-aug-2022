@@ -110,6 +110,12 @@ https://medium.com/@jegan_50867/docker-commands-ba19387383b4
 - rolling update
    - upgrading your live application from one version to other without any down time
 
+## Hypervisor High Level Architecture
+![Hypervisor High Level Architecture](HypervisorHighLevelArchitecture.png)
+
+## Docker High Level Architecture
+![Docker High Level Architecture](DockerHighLevelArchitectureUpdated.png)
+
 ## Docker Commands
 
 ### Finding details about your docker installation
