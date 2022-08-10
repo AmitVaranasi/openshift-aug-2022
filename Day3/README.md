@@ -301,3 +301,9 @@ No resources found in jegan namespace.
 (jegan@tektutor.org)$ <b>ls</b>
 nginx-clusterip-svc.yml  nginx-deploy.yml  <b>nginx-lb-svc.yml</b>  nginx-nodeport-svc.yml  README.md
 </pre>
+
+## Configuring MetalLB in OpenShift
+Refer my medium blog
+<pre>
+https://medium.com/tektutor/using-metallb-loadbalancer-with-bare-metal-openshift-onprem-4230944bfa35
+</pre>
