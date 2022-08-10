@@ -181,3 +181,25 @@ nginx-78644964b4-swv9w   0/1     ContainerCreating   0          3s
 nginx-78644964b4-vtvb9   0/1     ContainerCreating   0          3s
 nginx-78644964b4-z4znv   1/1     Running             0          4m33s
 </pre>
+
+## Scale up nginx deploying from 6 Pods to 8 Pods using declarative style
+Edit nginx-deploy.yml and update the replicas count from 6 to 8
+```
+oc apply -f nginx-deploy.yml
+```
+
+<pre>
+(jegan@tektutor.org)$ vim nginx-deploy.yml 
+(jegan@tektutor.org)$ oc apply -f nginx-deploy.yml 
+deployment.apps/nginx configured
+(jegan@tektutor.org)$ oc get po
+NAME                     READY   STATUS              RESTARTS   AGE
+nginx-78644964b4-2w2rs   1/1     Running             0          6m27s
+nginx-78644964b4-4j469   1/1     Running             0          117s
+nginx-78644964b4-fjhsc   0/1     ContainerCreating   0          3s
+nginx-78644964b4-hgtwm   1/1     Running             0          6m27s
+nginx-78644964b4-swv9w   1/1     Running             0          117s
+nginx-78644964b4-vtvb9   1/1     Running             0          117s
+nginx-78644964b4-wpsfs   0/1     ContainerCreating   0          3s
+nginx-78644964b4-z4znv   1/1     Running             0          6m27s
+</pre>
