@@ -240,6 +240,17 @@ Session Affinity:  None
 Events:            <none>
 </pre>
 
+## Deleting the clusterip service using declarative style
+<pre>
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+nginx   ClusterIP   172.30.150.49   <none>        8080/TCP   3s
+(jegan@tektutor.org)$ <b>oc delete -f nginx-clusterip-svc.yml</b>
+service "nginx" deleted
+(jegan@tektutor.org)$ <b>oc get svc</b>
+No resources found in jegan namespace.
+</pre>
+
 ## Creating NodePort Service using declarative style
 <pre>
 (jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=NodePort --port=8080 --dry-run=client -o yaml > nginx-nodeport-svc.yml</b>
