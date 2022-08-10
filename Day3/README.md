@@ -162,3 +162,22 @@ status: {}
 ```
 oc create deploy nginx --image=bitnami/nginx:latest --replicas=3 --dry-run=client -o yaml > nginx-deploy.yml
 ```
+
+## Scale up nginx deployment from 3 Pods to 6 Pods using imperative style
+```
+oc scale deploy/nginx --replicas=6
+```
+
+Expected ouput
+<pre>
+(jegan@tektutor.org)$ <b>oc scale deploy/nginx --replicas=6</b>
+deployment.apps/nginx scaled
+(jegan@tektutor.org)$ oc get po
+NAME                     READY   STATUS              RESTARTS   AGE
+nginx-78644964b4-2w2rs   1/1     Running             0          4m33s
+nginx-78644964b4-4j469   0/1     ContainerCreating   0          3s
+nginx-78644964b4-hgtwm   1/1     Running             0          4m33s
+nginx-78644964b4-swv9w   0/1     ContainerCreating   0          3s
+nginx-78644964b4-vtvb9   0/1     ContainerCreating   0          3s
+nginx-78644964b4-z4znv   1/1     Running             0          4m33s
+</pre>
