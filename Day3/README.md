@@ -209,3 +209,24 @@ nginx-78644964b4-vtvb9   1/1     Running             0          117s
 nginx-78644964b4-wpsfs   0/1     ContainerCreating   0          3s
 nginx-78644964b4-z4znv   1/1     Running             0          6m27s
 </pre>
+
+## Creating ClusterIP Service using declarative style
+<pre>
+(jegan@tektutor.org)$ oc expose deploy/nginx --port=8080 --dry-run=client -o yaml > nginx-clusterip-svc.yml
+(jegan@tektutor.org)$ ls
+nginx-clusterip-svc.yml  nginx-deploy.yml  README.md
+</pre>
+
+## Creating NodePort Service using declarative style
+<pre>
+(jegan@tektutor.org)$ oc expose deploy/nginx --type=NodePort --port=8080 --dry-run=client -o yaml > nginx-nodeport-svc.yml
+(jegan@tektutor.org)$ ls
+nginx-clusterip-svc.yml  nginx-deploy.yml  nginx-nodeport-svc.yml  README.md
+</pre>
+
+## Creating LoadBalancer Service using declarative style
+<pre>
+(jegan@tektutor.org)$ oc expose deploy/nginx --type=LoadBalancer --port=8080 --dry-run=client -o yaml > nginx-lb-svc.yml
+(jegan@tektutor.org)$ ls
+nginx-clusterip-svc.yml  nginx-deploy.yml  nginx-lb-svc.yml  nginx-nodeport-svc.yml  README.md
+</pre>
