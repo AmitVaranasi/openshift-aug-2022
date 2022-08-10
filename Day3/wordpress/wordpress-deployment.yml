@@ -61,7 +61,9 @@ spec:
         volumeMounts:
         - name: wordpress-persistent-storage
           mountPath: /bitnami 
+          subPath: wordpress
       volumes:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
           claimName: wordpress-pvc-jegan
+          
