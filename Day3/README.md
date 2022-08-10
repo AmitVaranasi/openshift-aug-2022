@@ -307,3 +307,67 @@ Refer my medium blog
 <pre>
 https://medium.com/tektutor/using-metallb-loadbalancer-with-bare-metal-openshift-onprem-4230944bfa35
 </pre>
+
+## What is Persistent Volume(PV)?
+- System Administrators can creates Volume of
+   - sizes ( 1Gib, 2 Gib, 5 Gib, etc )
+   - different types(storage class) ( aws EBS, NFS Storage, etc., )
+   - Permission(access mode) - Whether all Pods in every node can access or All Pods in same Node alone access to storage
+ 
+## What is Persistent Volume Claim(PVC)?
+- Application Developers they can request the storage requirement for their applications by creating Persistent Volume Claim
+- When PVC should mention
+   - the access mode
+   - size
+   - storage class ( optional )
+   
+## OpenShift Storage Controller
+- When you deploy an applcation that requires some PVC(storage)
+- Storage Controller will search the OpenShift cluster for Persistent volumes that matches the requirements of PVC
+- Things that should match between PV and PVC
+    1. Size
+    2. Access Mode
+    3. Storage Class(if mentioned)
+    4. Labels (if mentioned)
+
+
+## Clone the TekTutor openshift repository if you haven't done already
+```
+cd ~
+git clone https://github.com/tektutor/openshift-aug-2022.git
+cd openshift-aug-2022
+```
+
+## Pull dela changes if you have already clone the TekTutor Openshift GitHub Repository
+```
+cd ~
+cd openshift-aug-2022
+git pull
+```
+
+## Creating the Persistent Volume
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/mysql
+
+oc apply -f mysql-pv.yml
+```
+
+## Creating the Persistent Volume claim
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/mysql
+
+oc apply -f mysql-pvc.yml
+```
+
+## Deploying mysql database
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/mysql
+
+oc apply -f mysql-deploy.yml
+```
