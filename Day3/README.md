@@ -406,3 +406,74 @@ oc apply -f mysql-deploy.yml
 <pre>
 https://youtube/YIQa-LNBcJA"/>
 </pre>
+
+## ⛹️‍♂️ Lab - Deploying Wordpress and mysql multi-pod application
+
+#### Clone the repo in case you haven't done already
+```
+cd ~
+git clone https://github.com/tektutor/openshift-aug-2022.git
+cd openshift-aug-2022
+```
+
+#### Pull the delta changes after you have cloned the repo
+```
+cd ~
+cd openshift-aug-2022
+git pull
+```
+
+Create the mysql persistent volume
+```
+cd Day3/wordpress
+
+oc apply -f mysql-pv.yml
+```
+
+Create the mysql persistent volume claim
+```
+cd Day3/wordpress
+oc apply -f mysql-pvc.yml
+```
+
+Deploy the mysql db server
+```
+cd Day3/wordpress
+oc apply -f mysql-deployment.yml
+```
+
+Create clusterip service for mysql deployment
+```
+cd Day3/wordpress
+oc apply -f mysql-service.yml
+```
+
+Create the wordpress persistent volume
+```
+cd Day3/wordpress
+oc apply -f wordpress-pv.yml
+```
+
+Create the wordpress persistent volume claim
+```
+cd Day3/wordpress
+oc apply -f wordpress-pvc.yml
+```
+
+Create the wordpress deployment
+```
+cd Day3/wordpress
+oc apply -f wordpress-deployment.yml
+```
+
+Create the wordpress service
+```
+cd Day3/wordpress
+oc apply -f wordpress-service.yml
+```
+
+Create the wordpress route
+```
+cd Day3/wordpress
+oc apply -f wordpress-route.yml
+```
