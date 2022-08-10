@@ -307,3 +307,102 @@ Refer my medium blog
 <pre>
 https://medium.com/tektutor/using-metallb-loadbalancer-with-bare-metal-openshift-onprem-4230944bfa35
 </pre>
+
+## What is Persistent Volume(PV)?
+- System Administrators can creates Volume of
+   - sizes ( 1Gib, 2 Gib, 5 Gib, etc )
+   - different types(storage class) ( aws EBS, NFS Storage, etc., )
+   - Permission(access mode) - Whether all Pods in every node can access or All Pods in same Node alone access to storage
+ 
+## What is Persistent Volume Claim(PVC)?
+- Application Developers they can request the storage requirement for their applications by creating Persistent Volume Claim
+- When PVC should mention
+   - the access mode
+   - size
+   - storage class ( optional )
+   
+## OpenShift Storage Controller
+- When you deploy an applcation that requires some PVC(storage)
+- Storage Controller will search the OpenShift cluster for Persistent volumes that matches the requirements of PVC
+- Things that should match between PV and PVC
+    1. Size
+    2. Access Mode
+    3. Storage Class(if mentioned)
+    4. Labels (if mentioned)
+
+
+## Clone the TekTutor openshift repository if you haven't done already
+```
+cd ~
+git clone https://github.com/tektutor/openshift-aug-2022.git
+cd openshift-aug-2022
+```
+
+## Pull dela changes if you have already clone the TekTutor Openshift GitHub Repository
+```
+cd ~
+cd openshift-aug-2022
+git pull
+```
+
+## Creating the Persistent Volume
+Make sure you find and replace 'jegan' with your name before deploying.
+
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/mysql
+
+oc apply -f mysql-pv.yml
+```
+The persistent volume manifest file content will look like below
+<pre>
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-jegan 
+  labels:
+     name: jegan
+spec:
+  capacity:
+    storage: 100Mi 
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/mysql
+    server: 192.168.1.80
+</pre>
+
+In the above file, 
+ - you need to replace 'jegan' with your name
+ - replace path /mnt/mysql with /mnt/userxx
+ - replace NFS Server IP with your RPS Lab Machine IP address.
+ 
+In case your username is user05 then you should replace the path as /mnt/user05
+ 
+
+## Creating the Persistent Volume claim
+Make sure you find and replace 'jegan' with your name before deploying.
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/mysql
+
+oc apply -f mysql-pvc.yml
+```
+
+## Deploying mysql database
+Make sure you find and replace 'jegan' with your name before deploying.
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/mysql
+
+oc apply -f mysql-deploy.yml
+```
+
+## Understanding Persistent Volume and Claim in a funny way
+<pre>
+https://youtube/YIQa-LNBcJA"/>
+</pre>
