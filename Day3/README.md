@@ -346,6 +346,8 @@ git pull
 ```
 
 ## Creating the Persistent Volume
+Make sure you find and replace 'jegan' with your name before deploying.
+
 ```
 cd ~/openshift-aug-2022
 git pull
@@ -355,6 +357,7 @@ oc apply -f mysql-pv.yml
 ```
 
 ## Creating the Persistent Volume claim
+Make sure you find and replace 'jegan' with your name before deploying.
 ```
 cd ~/openshift-aug-2022
 git pull
@@ -364,6 +367,7 @@ oc apply -f mysql-pvc.yml
 ```
 
 ## Deploying mysql database
+Make sure you find and replace 'jegan' with your name before deploying.
 ```
 cd ~/openshift-aug-2022
 git pull
