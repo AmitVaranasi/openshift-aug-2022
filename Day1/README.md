@@ -116,6 +116,12 @@ https://medium.com/@jegan_50867/docker-commands-ba19387383b4
 ## Docker High Level Architecture
 ![Docker High Level Architecture](DockerHighLevelArchitectureUpdated.png)
 
+## Docker Image Layers
+![Docker Image Layers](DockerLayers.png)
+
+## Docker Networking
+![Docker Networking](DockerNetworking.png)
+
 ## Docker Commands
 
 ### Finding details about your docker installation
