@@ -212,21 +212,44 @@ nginx-78644964b4-z4znv   1/1     Running             0          6m27s
 
 ## Creating ClusterIP Service using declarative style
 <pre>
-(jegan@tektutor.org)$ oc expose deploy/nginx --port=8080 --dry-run=client -o yaml > nginx-clusterip-svc.yml
-(jegan@tektutor.org)$ ls
-nginx-clusterip-svc.yml  nginx-deploy.yml  README.md
+(jegan@tektutor.org)$ <b>oc expose deploy/nginx --port=8080 --dry-run=client -o yaml > nginx-clusterip-svc.yml</b>
+(jegan@tektutor.org)$ </b>ls</b>
+<b>nginx-clusterip-svc.yml</b>  nginx-deploy.yml  README.md
+(jegan@tektutor.org)$ oc get svc
+No resources found in jegan namespace.
+(jegan@tektutor.org)$ <b>oc apply -f nginx-clusterip-svc.yml</b>
+service/nginx created
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+nginx   ClusterIP   172.30.150.178   <none>        8080/TCP   5s
+(jegan@tektutor.org)$ <b>oc describe svc/nginx</b>
+Name:              nginx
+Namespace:         jegan
+Labels:            app=nginx
+Annotations:       <none>
+Selector:          app=nginx
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                172.30.150.178
+IPs:               172.30.150.178
+Port:              <unset>  8080/TCP
+TargetPort:        8080/TCP
+Endpoints:         10.128.0.111:8080,10.128.2.17:8080,10.128.2.18:8080 + 5 more...
+Session Affinity:  None
+Events:            <none>
 </pre>
 
 ## Creating NodePort Service using declarative style
 <pre>
-(jegan@tektutor.org)$ oc expose deploy/nginx --type=NodePort --port=8080 --dry-run=client -o yaml > nginx-nodeport-svc.yml
-(jegan@tektutor.org)$ ls
-nginx-clusterip-svc.yml  nginx-deploy.yml  nginx-nodeport-svc.yml  README.md
+(jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=NodePort --port=8080 --dry-run=client -o yaml > nginx-nodeport-svc.yml</b>
+(jegan@tektutor.org)$ <b>ls</b>
+nginx-clusterip-svc.yml  nginx-deploy.yml  <b>nginx-nodeport-svc.yml</b>  README.md
 </pre>
 
 ## Creating LoadBalancer Service using declarative style
 <pre>
-(jegan@tektutor.org)$ oc expose deploy/nginx --type=LoadBalancer --port=8080 --dry-run=client -o yaml > nginx-lb-svc.yml
-(jegan@tektutor.org)$ ls
-nginx-clusterip-svc.yml  nginx-deploy.yml  nginx-lb-svc.yml  nginx-nodeport-svc.yml  README.md
+(jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=LoadBalancer --port=8080 --dry-run=client -o yaml > nginx-lb-svc.yml</b>
+(jegan@tektutor.org)$ <b>ls</b>
+nginx-clusterip-svc.yml  nginx-deploy.yml  <b>nginx-lb-svc.yml</b>  nginx-nodeport-svc.yml  README.md
 </pre>
