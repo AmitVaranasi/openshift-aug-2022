@@ -477,3 +477,24 @@ Create the wordpress route
 cd Day3/wordpress
 oc apply -f wordpress-route.yml
 ```
+
+## What is HELM?
+- HELM is a package manager for Kubernetes/OpenShift Cluster
+- with this tool, you can package/bundle your application as Charts
+- Helm packaged application is called as Charts
+- using this tool, you can install/uninstall/upgrade your application with easy commands
+
+## Installing Helm in your system
+```
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+## Checking Helm version after installing Helm
+<pre>
+(jegan@tektutor.org)$ helm version
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/jegan/.kube/config
+version.BuildInfo{Version:"v3.9.0", GitCommit:"7ceeda6c585217a19a1131663d8cd1f7d641b2a7", GitTreeState:"clean", GoVersion:"go1.17.5"}
+</pre>
+
