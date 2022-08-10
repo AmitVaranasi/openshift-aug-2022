@@ -78,6 +78,14 @@ Example
 - RedHat OpenShift Master Nodes only supports RedHat Enterprise Linux Core OS Operating System(RHCOS)
 - RedHat OpenShift Worker Nodes supports either RHEL or RHCOS
 
+## Kubernetes High Level Architecture
+![Kubernetes High Level Architecture](KubernetesArchitecture.png)
+
+## OpenShift High Level Architecture
+![OpenShift High Level Architecture](RedHatOpenShiftArchitecture.png)
+![OpenShift High Level Architecture](OpenShiftArchitecture.png)
+![OpenShift High Level Architecture](master-node.png)
+
 ## Finding OpenShift version
 ```
 oc version
