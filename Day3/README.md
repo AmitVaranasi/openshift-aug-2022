@@ -355,6 +355,32 @@ cd Day3/mysql
 
 oc apply -f mysql-pv.yml
 ```
+The persistent volume manifest file content will look like below
+<pre>
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-jegan 
+  labels:
+     name: jegan
+spec:
+  capacity:
+    storage: 100Mi 
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/mysql
+    server: 192.168.1.80
+</pre>
+
+In the above file, 
+ - you need to replace 'jegan' with your name
+ - replace path /mnt/mysql with /mnt/userxx
+ - replace NFS Server IP with your RPS Lab Machine IP address.
+ 
+In case your username is user05 then you should replace the path as /mnt/user05
+ 
 
 ## Creating the Persistent Volume claim
 Make sure you find and replace 'jegan' with your name before deploying.
