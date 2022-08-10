@@ -403,4 +403,6 @@ oc apply -f mysql-deploy.yml
 ```
 
 ## Understanding Persistent Volume and Claim in a funny way
-<iframe width="500" height="700" src="https://youtube/YIQa-LNBcJA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div aligh="center">
+<a href="https://youtube/YIQa-LNBcJA"/>
+</div>
