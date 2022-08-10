@@ -125,6 +125,12 @@ Commercial support is available at
 </html>
 </pre>
 
+## Let's clean up all resources by deleting our project and recreate the same project
+```
+oc delete project jegan
+oc new-project jegan
+```
+
 ## Understanding dry-run
 ```
 oc create deploy nginx --image=bitnami/nginx:latest --replicas=3 --dry-run=client -o yaml
