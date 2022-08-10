@@ -209,3 +209,101 @@ nginx-78644964b4-vtvb9   1/1     Running             0          117s
 nginx-78644964b4-wpsfs   0/1     ContainerCreating   0          3s
 nginx-78644964b4-z4znv   1/1     Running             0          6m27s
 </pre>
+
+## Creating ClusterIP Service using declarative style
+<pre>
+(jegan@tektutor.org)$ <b>oc expose deploy/nginx --port=8080 --dry-run=client -o yaml > nginx-clusterip-svc.yml</b>
+(jegan@tektutor.org)$ </b>ls</b>
+<b>nginx-clusterip-svc.yml</b>  nginx-deploy.yml  README.md
+(jegan@tektutor.org)$ oc get svc
+No resources found in jegan namespace.
+(jegan@tektutor.org)$ <b>oc apply -f nginx-clusterip-svc.yml</b>
+service/nginx created
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+nginx   ClusterIP   172.30.150.178   <none>        8080/TCP   5s
+(jegan@tektutor.org)$ <b>oc describe svc/nginx</b>
+Name:              nginx
+Namespace:         jegan
+Labels:            app=nginx
+Annotations:       <none>
+Selector:          app=nginx
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                172.30.150.178
+IPs:               172.30.150.178
+Port:              <unset>  8080/TCP
+TargetPort:        8080/TCP
+Endpoints:         10.128.0.111:8080,10.128.2.17:8080,10.128.2.18:8080 + 5 more...
+Session Affinity:  None
+Events:            <none>
+</pre>
+
+## Deleting the clusterip service using declarative style
+<pre>
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+nginx   ClusterIP   172.30.150.49   <none>        8080/TCP   3s
+(jegan@tektutor.org)$ <b>oc delete -f nginx-clusterip-svc.yml</b>
+service "nginx" deleted
+(jegan@tektutor.org)$ <b>oc get svc</b>
+No resources found in jegan namespace.
+</pre>
+
+## Creating NodePort Service using declarative style
+<pre>
+(jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=NodePort --port=8080 --dry-run=client -o yaml > nginx-nodeport-svc.yml</b>
+(jegan@tektutor.org)$ <b>ls</b>
+nginx-clusterip-svc.yml  nginx-deploy.yml  <b>nginx-nodeport-svc.yml</b>  README.md
+
+(jegan@tektutor.org)$ <b>oc get svc</b>
+No resources found in jegan namespace.
+(jegan@tektutor.org)$ <b>oc apply -f nginx-nodeport-svc.yml</b>
+service/nginx created
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+nginx   NodePort   172.30.252.33   <none>        8080:31405/TCP   2s
+(jegan@tektutor.org)$ <b>oc describe svc/nginx</b>
+Name:                     nginx
+Namespace:                jegan
+Labels:                   app=nginx
+Annotations:              <none>
+Selector:                 app=nginx
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.30.252.33
+IPs:                      172.30.252.33
+Port:                     <unset>  8080/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  31405/TCP
+Endpoints:                10.128.0.111:8080,10.128.2.17:8080,10.128.2.18:8080 + 5 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+</pre>
+
+## Deleting NodePort service in declarative style
+<pre>
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+nginx   NodePort   172.30.252.33   <none>        8080:31405/TCP   2m30s
+(jegan@tektutor.org)$ <b>oc delete -f nginx-nodeport-svc.yml</b>
+service "nginx" deleted
+(jegan@tektutor.org)$ <b>oc get svc</b>
+No resources found in jegan namespace.
+</pre>
+
+## Creating LoadBalancer Service using declarative style
+<pre>
+(jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=LoadBalancer --port=8080 --dry-run=client -o yaml > nginx-lb-svc.yml</b>
+(jegan@tektutor.org)$ <b>ls</b>
+nginx-clusterip-svc.yml  nginx-deploy.yml  <b>nginx-lb-svc.yml</b>  nginx-nodeport-svc.yml  README.md
+</pre>
+
+## Configuring MetalLB in OpenShift
+Refer my medium blog
+<pre>
+https://medium.com/tektutor/using-metallb-loadbalancer-with-bare-metal-openshift-onprem-4230944bfa35
+</pre>
