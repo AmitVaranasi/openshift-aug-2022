@@ -97,3 +97,41 @@ Commercial support is available at
 </body>
 </html>
 </pre>
+
+## Understanding dry-run
+```
+oc create deploy nginx --image=bitnami/nginx:latest --replicas=3 --dry-run=client -o yaml
+```
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc create deploy nginx --image=bitnami/nginx:latest --replicas=3 --dry-run=client -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: bitnami/nginx:latest
+        name: nginx
+        resources: {}
+status: {}
+</pre>
+
+## Creating a nginx deployment 
+```
+oc create deploy nginx --image=bitnami/nginx:latest --replicas=3 --dry-run=client -o yaml > nginx-deploy.yml
+```
