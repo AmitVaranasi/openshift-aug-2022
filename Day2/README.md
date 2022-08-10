@@ -634,4 +634,44 @@ sh-4.4$ <b>curl localhost:8080</b>
 Greetings from Spring Boot!
 </pre>
 
+## What is OpenShift Service?
+- OpenShift Service represents a group of Pods created from the same Container Image
+- As Pods are temporary, we need a stable abstraction that can be used to programatically access the load balanced group of Pods
+- Service can be accessed either using the Service IP and Service Port or using its name ( Service Discovery )
+- OpenShift supports the following types of Services
+1. NodePort Service ( Can be accessed from outside the Cluster too )
+2. LoadBalancer Service ( Can be accessed from outside the Cluster too )
+3. ClusteriP Service ( Can only be accessed within the OpenShift cluster )
+
+## Creating a ClusterIP (Internal) Service
+```
+oc expose deploy/nginx --type=ClusterIP --port=8080
+oc get svc
+oc describe svc/nginx
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc expose deploy/nginx --type=ClusterIP --port=8080</b>
+service/nginx exposed
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+nginx   ClusterIP   172.30.106.56   <none>        8080/TCP   2s
+(jegan@tektutor.org)$ <b>oc describe svc/nginx</b>
+Name:              nginx
+Namespace:         jegan
+Labels:            app=nginx
+Annotations:       <none>
+Selector:          app=nginx
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                172.30.106.56
+IPs:               172.30.106.56
+Port:              <unset>  8080/TCP
+TargetPort:        8080/TCP
+Endpoints:         10.128.0.93:8080,10.128.0.94:8080,10.128.0.95:8080 + 17 more...
+Session Affinity:  None
+Events:            <none>
+</pre>
 
