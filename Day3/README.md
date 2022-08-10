@@ -548,3 +548,45 @@ Successfully packaged chart and saved it to: /home/jegan/openshift-aug-2022/Day3
 (jegan@tektutor.org)$ <b>ls</b>
 wordpress  <b>wordpress-0.1.0.tgz</b>
 </pre>
+
+## Deploying wordpress using Helm Chart that we created
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day3/HELM
+helm install wordpress wordpress-0.1.0.tgz
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ helm install wordpress wordpress-0.1.0.tgz 
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/jegan/.kube/config
+NAME: wordpress
+LAST DEPLOYED: Wed Aug 10 18:18:52 2022
+NAMESPACE: jegan
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+</pre>
+
+## List the helm charts installed into your OpenShift cluster
+```
+helm list
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ helm list
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/jegan/.kube/config
+NAME     	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART          	APP VERSION
+wordpress	jegan    	1       	2022-08-10 18:18:52.224094827 +0530 IST	deployed	wordpress-0.1.0	1.16.0     
+</pre>
+
+## Testing the wordpress deployment
+- Go to your OpenShift webconsole
+- Switch to Developer view
+- Switch to your project
+- Select the topology
+- Click the route upward arrow shown on the wordpress
+- you should be able to access wordpress web page
