@@ -320,3 +320,240 @@ You can observe from the OpenShift webconsole, every 1 hour it spins a new Pod t
   that we wrote in the Ingress yaml file and then configures the HAProxy Load Balancer so that it can route the
   calls to different appropriate services.
   
+## ⛹️‍♂️ Lab - Understanding Ingress rules
+
+Let's deploy wordpress
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/HELM
+
+helm install wordpress-0.1.0.tgz
+```
+
+Let's deploy nginx
+```
+oc create deploy nginx --image=bitnami/nginx:latest  --replicas=3
+oc expose deploy/nginx --port=8080
+```
+
+Now you can create the ingress. You need to edit ingress.yml and replace tektutor.org with rps.com in the host.
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day4/ingress
+
+oc apply -f ingress.yml
+```
+
+Listing the ingress
+```
+oc get ingress
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get ingress</b>
+NAME       CLASS    HOSTS                            ADDRESS                                PORTS   AGE
+tektutor   <none>   tektutor.apps.ocp.tektutor.org   router-default.apps.ocp.tektutor.org   80      25m
+</pre>
+
+
+Testing the ingress
+- Open your chrome browser on the lab machine
+- type your ingress hostname e.g tektutor.apps.ocp.tektutor.org/wordpress
+- type your ingress hostname e.g tektutor.apps.ocp.tektutor.org/nginx
+
+You need to update the hostname as per your cluster domain and ingress name.
+
+## ⛹️‍♀️ Lab - Securing your application routes
+
+In my lab machine, the openshift self-signed certificate has expired. Hence, I had to create a new self-signed certifacte.
+
+Generate CA files serverca.crt and serverkey.pem.  This allows signing the server and client keys.
+```
+openssl genrsa -out servercakey.pem
+openssl req -new -x509 -key servercakey.pem -out serverca.crt
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ openssl genrsa -out servercakey.pem
+Generating RSA private key, 2048 bit long modulus (2 primes)
+..................................+++++
+........................................................................+++++
+e is 65537 (0x010001)
+
+(jegan@tektutor.org)$ <b>openssl req -new -x509 -key servercakey.pem -out serverca.crt</b>
+Can't load /home/jegan/.rnd into RNG
+140631709282752:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+</pre>
+
+Let's create teh server private key(server.crt) and public key(server.key)
+```
+openssl genrsa -out server.key
+openssl req -new -key server.key -out server_reqout.txt
+openssl x509 -req -in server_reqout.txt -days 3650 -sha256 -CAcreateserial -CA serverca.crt -CAkey servercakey.pem -out server.crt
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ openssl genrsa -out server.key
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.............................+++++
+.....................................................+++++
+e is 65537 (0x010001)
+(jegan@tektutor.org)$ openssl req -new -key server.key -out server_reqout.txt
+Can't load /home/jegan/.rnd into RNG
+140071426494912:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:root@123
+An optional company name []:^C
+(jegan@tektutor.org)$ openssl req -new -key server.key -out server_reqout.txt
+Can't load /home/jegan/.rnd into RNG
+140596477448640:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+(jegan@tektutor.org)$ openssl x509 -req -in server_reqout.txt -days 3650 -sha256 -CAcreateserial -CA serverca.crt -CAkey servercakey.pem -out server.crt
+Signature ok
+subject=C = IN, ST = Tamil Nadu, L = Hosur, O = TekTutor, OU = Software, CN = ocp.tektutor.org, emailAddress = jegan@tektutor.org
+Getting CA Private Key
+</pre>
+
+## Create the client private key(client.crt) and public key(client.key)
+```
+openssl genrsa -out client.key
+openssl req -new -key client.key -out client_reqout.txt
+openssl x509 -req -in client_reqout.txt -days 3650 -sha256 -CAcreateserial -CA  serverca.crt -CAkey servercakey.pem -out client.crt
+```
+When prompted for password, I type 'root@123' as the password for the passphrase.
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ openssl genrsa -out client.key
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.......+++++
+.........................................................................................................................+++++
+e is 65537 (0x010001)
+(jegan@tektutor.org)$ openssl req -new -key client.key -out client_reqout.txt
+Can't load /home/jegan/.rnd into RNG
+140654754931136:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+(jegan@tektutor.org)$ openssl x509 -req -in client_reqout.txt -days 3650 -sha256 -CAcreateserial -CA  serverca.crt -CAkey servercakey.pem -out client.crt
+Signature ok
+subject=C = IN, ST = Tamil Nadu, L = Hosur, O = TekTutor, OU = Software, CN = ocp.tektutor.org, emailAddress = jegan@tektutor.org
+Getting CA Private Key
+(jegan@tektutor.org)$ ls
+client.crt  client_reqout.txt  servercakey.pem  server.crt  server_reqout.txt
+client.key  serverca.crt       serverca.srl     server.key
+(jegan@tektutor.org)$ ls -l
+total 36
+-rw-rw-r-- 1 jegan jegan 1346 Aug 11 17:05 client.crt
+-rw------- 1 jegan jegan 1679 Aug 11 17:02 client.key
+-rw-rw-r-- 1 jegan jegan 1070 Aug 11 17:02 client_reqout.txt
+-rw-rw-r-- 1 jegan jegan 1468 Aug 11 16:52 serverca.crt
+-rw------- 1 jegan jegan 1675 Aug 11 16:50 servercakey.pem
+-rw-rw-r-- 1 jegan jegan   41 Aug 11 17:05 serverca.srl
+-rw-rw-r-- 1 jegan jegan 1346 Aug 11 17:00 server.crt
+-rw------- 1 jegan jegan 1679 Aug 11 16:57 server.key
+-rw-rw-r-- 1 jegan jegan 1070 Aug 11 16:59 server_reqout.txt
+</pre>
+
+
+## Let's create configmap with the root CA Certifacte used to sign the wildcard certificate
+```
+oc create configmap tektutor-ca --from-file=ca-bundle.crt=serverca.crt -n openshift-config
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc create configmap tektutor-ca --from-file=ca-bundle.crt=serverca.crt -n openshift-config
+configmap/tektutor-ca created
+</pre>
+
+Let's create a secret that contains the wildcard certificate chain and key
+```
+oc create secrete tls tektutor --cert=client.crt --key=client.key -n openshift-ingress
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc create secret tls tektutor --cert=client.crt --key=client.key -n openshift-ingress</b>
+secret/tektutor created
+</pre>
+
+## Patch Ingress Controller with our tektutor secret
+```
+oc patch ingresscontroller.operator default --type=merge -p '{"spec":{"defaultCertificate": {"name": "tektutor"}}}' -n openshift-ingress-operator
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc patch ingresscontroller.operator default --type=merge -p '{"spec":{"defaultCertificate": {"name": "tektutor-updated"}}}' -n openshift-ingress-operator
+ingresscontroller.operator.openshift.io/default patched
+</pre>
