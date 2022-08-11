@@ -48,3 +48,61 @@ Commercial support is available at
 </body>
 </html>
 </pre>
+
+
+## Using Secrets to store mysql login credentials
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day4/secret
+oc apply -f mysql-login-credentials.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc apply -f mysql-login-credentials.yml</b>
+secret/mysql-login-credentials created
+</pre>
+
+## Listing the secrets
+```
+oc get secrets
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc get secrets
+NAME                                 TYPE                                  DATA   AGE
+builder-dockercfg-n279r              kubernetes.io/dockercfg               1      3h10m
+builder-token-gbdvb                  kubernetes.io/service-account-token   4      3h10m
+builder-token-njs2v                  kubernetes.io/service-account-token   4      3h10m
+default-dockercfg-w7zp2              kubernetes.io/dockercfg               1      3h10m
+default-token-kbdz7                  kubernetes.io/service-account-token   4      3h10m
+default-token-ww7vr                  kubernetes.io/service-account-token   4      3h10m
+deployer-dockercfg-9p684             kubernetes.io/dockercfg               1      3h10m
+deployer-token-cfbzm                 kubernetes.io/service-account-token   4      3h10m
+deployer-token-mbn2t                 kubernetes.io/service-account-token   4      3h10m
+<b>mysql-login-credentials              Opaque                                2      3s</b>
+</pre>
+
+## See if you can print the value stores in the secrets using describe command
+```
+oc describe secret/mysql-login-credentials
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc describe secret/mysql-login-credentials</b>
+Name:         mysql-login-credentials
+Namespace:    jegan
+Labels:       app=mysql
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+username:  4 bytes
+password:  8 bytes
+</pre>
