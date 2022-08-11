@@ -365,3 +365,104 @@ Testing the ingress
 - type your ingress hostname e.g tektutor.apps.ocp.tektutor.org/nginx
 
 You need to update the hostname as per your cluster domain and ingress name.
+
+## ⛹️‍♀️ Lab - Securing your application routes
+
+In my lab machine, the openshift self-signed certificate has expired. Hence, I had to create a new self-signed certifacte.
+
+Generate CA files serverca.crt and serverkey.pem.  This allows signing the server and client keys.
+```
+openssl genrsa -out servercakey.pem
+openssl req -new -x509 -key servercakey.pem -out serverca.crt
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ openssl genrsa -out servercakey.pem
+Generating RSA private key, 2048 bit long modulus (2 primes)
+..................................+++++
+........................................................................+++++
+e is 65537 (0x010001)
+
+(jegan@tektutor.org)$ <b>openssl req -new -x509 -key servercakey.pem -out serverca.crt</b>
+Can't load /home/jegan/.rnd into RNG
+140631709282752:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+</pre>
+
+Let's create teh server private key(server.crt) and public key(server.key)
+```
+openssl genrsa -out server.key
+openssl req -new -key server.key -out server_reqout.txt
+openssl x509 -req -in server_reqout.txt -days 3650 -sha256 -CAcreateserial -CA serverca.crt -CAkey servercakey.pem -out server.crt
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ openssl genrsa -out server.key
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.............................+++++
+.....................................................+++++
+e is 65537 (0x010001)
+(jegan@tektutor.org)$ openssl req -new -key server.key -out server_reqout.txt
+Can't load /home/jegan/.rnd into RNG
+140071426494912:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:root@123
+An optional company name []:^C
+(jegan@tektutor.org)$ openssl req -new -key server.key -out server_reqout.txt
+Can't load /home/jegan/.rnd into RNG
+140596477448640:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+(jegan@tektutor.org)$ openssl x509 -req -in server_reqout.txt -days 3650 -sha256 -CAcreateserial -CA serverca.crt -CAkey servercakey.pem -out server.crt
+Signature ok
+subject=C = IN, ST = Tamil Nadu, L = Hosur, O = TekTutor, OU = Software, CN = ocp.tektutor.org, emailAddress = jegan@tektutor.org
+Getting CA Private Key
+</pre>
