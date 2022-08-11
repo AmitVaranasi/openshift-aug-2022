@@ -48,3 +48,9 @@ Expected output
      'oc expose service/hello' 
     Run 'oc status' to view your app.
 </pre>
+
+
+### Checking build logs
+```
+oc logs -f bc/hello
+```
