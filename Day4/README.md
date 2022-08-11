@@ -302,3 +302,21 @@ cronjob.batch/hello created
 </pre>
 
 You can observe from the OpenShift webconsole, every 1 hour it spins a new Pod that print Hello and completes.  This goes on forever.
+
+
+## Ingress
+- Let's say you have multiple services for deployments
+- If you wish to forward the traffic to different services depending on url path
+- Forwarding rule
+
+- assume my main url is tektutor.org
+      tektutor.org/login  => login cluster-ip service
+      tektutor.org/logout => logout node-port service
+      tektutor.org/reports => reports load-balancer service
+
+- For Ingress to work, we need IngressController and LoadBalancer
+- OpenShift as part of installation it comes with HAProxy LoadBalancer
+- Whenever we create a Ingress rule (Yaml of kind Ingress), the IngressController it will read the ingress rules
+  that we wrote in the Ingress yaml file and then configures the HAProxy Load Balancer so that it can route the
+  calls to different appropriate services.
+  
