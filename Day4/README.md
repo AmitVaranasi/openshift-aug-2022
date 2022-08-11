@@ -283,4 +283,22 @@ NAME     READY   STATUS    RESTARTS   AGE
 my-pod   1/1     Running   0          8s
 </pre>
 
+
 As you can notice, the status is Running.  The scheduler looks for nodes that has diskType=ssd label, if it finds a node that matches the criteria then the pod will be deployed there, otherwise Scheduler will deploy on some nodes ignoring the preferrence. 
+
+## Creating a CronJob that runs every 1 hour and prints hello
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day4/cronjob
+
+oc apply -f cronjob.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc apply -f cronjob.yml</b>
+cronjob.batch/hello created
+</pre>
+
+You can observe from the OpenShift webconsole, every 1 hour it spins a new Pod that print Hello and completes.  This goes on forever.
