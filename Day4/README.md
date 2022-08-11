@@ -523,3 +523,37 @@ total 36
 -rw------- 1 jegan jegan 1679 Aug 11 16:57 server.key
 -rw-rw-r-- 1 jegan jegan 1070 Aug 11 16:59 server_reqout.txt
 </pre>
+
+
+## Let's create configmap with the root CA Certifacte used to sign the wildcard certificate
+```
+oc create configmap tektutor-ca --from-file=ca-bundle.crt=serverca.crt -n openshift-config
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc create configmap tektutor-ca --from-file=ca-bundle.crt=serverca.crt -n openshift-config
+configmap/tektutor-ca created
+</pre>
+
+Let's create a secret that contains the wildcard certificate chain and key
+```
+oc create secrete tls tektutor --cert=client.crt --key=client.key -n openshift-ingress
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc create secret tls tektutor --cert=client.crt --key=client.key -n openshift-ingress</b>
+secret/tektutor created
+</pre>
+
+## Patch Ingress Controller with our tektutor secret
+```
+oc patch ingresscontroller.operator default --type=merge -p '{"spec":{"defaultCertificate": {"name": "tektutor"}}}' -n openshift-ingress-operator
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc patch ingresscontroller.operator default --type=merge -p '{"spec":{"defaultCertificate": {"name": "tektutor-updated"}}}' -n openshift-ingress-operator
+ingresscontroller.operator.openshift.io/default patched
+</pre>
