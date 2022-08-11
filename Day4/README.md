@@ -320,3 +320,48 @@ You can observe from the OpenShift webconsole, every 1 hour it spins a new Pod t
   that we wrote in the Ingress yaml file and then configures the HAProxy Load Balancer so that it can route the
   calls to different appropriate services.
   
+## ⛹️‍♂️ Lab - Understanding Ingress rules
+
+Let's deploy wordpress
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day3/HELM
+
+helm install wordpress-0.1.0.tgz
+```
+
+Let's deploy nginx
+```
+oc create deploy nginx --image=bitnami/nginx:latest  --replicas=3
+oc expose deploy/nginx --port=8080
+```
+
+Now you can create the ingress. You need to edit ingress.yml and replace tektutor.org with rps.com in the host.
+```
+cd ~/openshift-aug-2022
+git pull
+cd Day4/ingress
+
+oc apply -f ingress.yml
+```
+
+Listing the ingress
+```
+oc get ingress
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get ingress</b>
+NAME       CLASS    HOSTS                            ADDRESS                                PORTS   AGE
+tektutor   <none>   tektutor.apps.ocp.tektutor.org   router-default.apps.ocp.tektutor.org   80      25m
+</pre>
+
+
+Testing the ingress
+- Open your chrome browser on the lab machine
+- type your ingress hostname e.g tektutor.apps.ocp.tektutor.org/wordpress
+- type your ingress hostname e.g tektutor.apps.ocp.tektutor.org/nginx
+
+You need to update the hostname as per your cluster domain and ingress name.
