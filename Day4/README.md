@@ -49,6 +49,13 @@ Commercial support is available at
 </html>
 </pre>
 
+## Secret values in Kubernetes/OpenShift are base64 encoded values in data section
+<pre>
+(jegan@tektutor.org)$ <b>echo -n root|base64</b>
+cm9vdA==
+(jegan@tektutor.org)$ <b>echo -n Root@123|base64</b>
+Um9vdEAxMjM=
+</pre>
 
 ## Using Secrets to store mysql login credentials
 ```
