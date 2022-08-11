@@ -1,6 +1,6 @@
 # Day 4
 
-## Pod port-forwarding for quick test
+## ⛹️‍♂️ Lab - Pod port-forwarding for quick test
 ```
 oc port-forward pod/nginx-78644964b4-xqp77 8080:8080
 ```
@@ -17,7 +17,7 @@ Forwarding from [::1]:8080 -> 8080
 Handling connection for 8080
 </pre>
 
-## Demonstrates how a cloud native application can retrieve config details from Configmap
+## ⛹️‍♂️ Lab - Demonstrates how a cloud native application can retrieve config details from Configmap
 ```
 cd ~/openshift-aug-2022
 git pull
@@ -76,7 +76,7 @@ $ echo $JDK_HOME
 $ exit
 </pre>
 
-## See if you can access the web page from the Pod after port-forward in a different terminal
+### See if you can access the web page from the Pod after port-forward in a different terminal
 ```
 curl localhost:8080
 ```
@@ -108,7 +108,7 @@ Commercial support is available at
 </html>
 </pre>
 
-## Secret values in Kubernetes/OpenShift are base64 encoded values in data section
+## ⛹️‍♂️ Lab - Secret values in Kubernetes/OpenShift are base64 encoded values in data section
 <pre>
 (jegan@tektutor.org)$ <b>echo -n root|base64</b>
 cm9vdA==
@@ -131,7 +131,7 @@ Expected output
 secret/mysql-login-credentials created
 </pre>
 
-## Listing the secrets
+### Listing the secrets
 ```
 oc get secrets
 ```
@@ -152,7 +152,7 @@ deployer-token-mbn2t                 kubernetes.io/service-account-token   4    
 <b>mysql-login-credentials              Opaque                                2      3s</b>
 </pre>
 
-## See if you can print the value stores in the secrets using describe command
+### See if you can print the value stores in the secrets using describe command
 ```
 oc describe secret/mysql-login-credentials
 ```
