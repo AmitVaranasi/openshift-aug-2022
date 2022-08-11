@@ -2,7 +2,7 @@ FROM registry.redhat.io/ubi8/openjdk-11:latest as builder
 MAINTAINER Jeganathan Swaminathan <jegan@tektutor.org>
 
 RUN mkdir -p ./hello
-COPY * ./hello
+COPY . ./hello
 WORKDIR ./hello
 RUN mvn package
 
