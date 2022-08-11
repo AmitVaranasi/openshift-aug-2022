@@ -283,4 +283,4 @@ NAME     READY   STATUS    RESTARTS   AGE
 my-pod   1/1     Running   0          8s
 </pre>
 
-As you can notice, the status is Running.  The scheduler looks for nodes that has diskType=ssd label, if it finds then the pod will be deployed there, otherwise Scheduler will deploy as usual ignoring the preferrence. 
+As you can notice, the status is Running.  The scheduler looks for nodes that has diskType=ssd label, if it finds a node that matches the criteria then the pod will be deployed there, otherwise Scheduler will deploy on some nodes ignoring the preferrence. 
