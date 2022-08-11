@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: software-tools-cm
+data:
+  jdk_home: /usr/lib/jvm/jdk-11-jdk11
+  mvn_home: /usr/share/maven

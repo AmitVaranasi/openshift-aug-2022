@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  labels:
+    app: my-pod
+spec:
+  containers:
+  - name: my-pod-container
+    image: bitnami/nginx:latest
+    env:
+    - name: JDK_HOME 
+      valueFrom:
+        configMapKeyRef:
+          name: software-tools-cm   
+          key: jdk_home
+    - name: MAVEN_HOME
+      valueFrom:
+        configMapKeyRef:
+          name: software-tools-cm   
+          key: mvn_home
