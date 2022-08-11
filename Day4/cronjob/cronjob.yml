@@ -3,9 +3,10 @@ kind: CronJob
 metadata:
   name: hello
 spec:
-  schedule: "0 * * * *"
+  schedule: "* * * * *"
   jobTemplate:
     spec:
+      suspend: true
       template:
         spec:
           containers:
