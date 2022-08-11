@@ -186,7 +186,7 @@ node/master-1.ocp.tektutor.org unlabeled
 </pre>
 
 
-## ⛹️‍♀️ Lab - Understanding Nodeaffinity while scheduling
+## ⛹️‍♀️ Lab - Understanding Nodeaffinity with mandatory scheduling rules
 
 Initially let's ensure the label diskType=ssd doesn't exist in any node.
 ```
@@ -235,3 +235,52 @@ master-2.ocp.tektutor.org   Ready    master,worker   2d4h   v1.23.5+012e945
 NAME     READY   STATUS    RESTARTS   AGE
 my-pod   1/1     Running   0          3m7s
 </pre>
+
+
+## ⛹️‍♀️ Lab - Understanding Nodeaffinity with preferred(optional) scheduling preferences
+
+Initially let's ensure the label diskType=ssd doesn't exist in any node.
+```
+oc get nodes -l diskType=ssd
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get nodes -l diskType=ssd</b>
+NAME                        STATUS   ROLES           AGE    VERSION
+master-2.ocp.tektutor.org   Ready    master,worker   2d5h   v1.23.5+012e945
+</pre>
+
+Let's remove the label from the master-2 node
+```
+oc label node master-2.ocp.tektutor.org diskType-
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc label node master-2.ocp.tektutor.org diskType-</b>
+node/master-2.ocp.tektutor.org unlabeled
+</pre>
+
+Let's deploy the pod in our openshift cluster now
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day4/node-affinity-scheduling/
+oc delete -f pod-with-mandatory-affinity-rules.yml
+oc apply -f pod-with-preffered-affinity.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc delete -f pod-with-mandatory-affinity-rules.yml</b>
+pod "my-pod" deleted
+(jegan@tektutor.org)$ <b>oc apply -f pod-with-preffered-affinity.yml</b>
+pod/my-pod created
+(jegan@tektutor.org)$ <b>oc get po -w</b>
+NAME     READY   STATUS    RESTARTS   AGE
+my-pod   1/1     Running   0          8s
+</pre>
+
+As you can notice, the status is Running.  The scheduler looks for nodes that has diskType=ssd label, if it finds then the pod will be deployed there, otherwise Scheduler will deploy as usual ignoring the preferrence. 
