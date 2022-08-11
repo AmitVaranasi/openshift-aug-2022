@@ -466,3 +466,60 @@ Signature ok
 subject=C = IN, ST = Tamil Nadu, L = Hosur, O = TekTutor, OU = Software, CN = ocp.tektutor.org, emailAddress = jegan@tektutor.org
 Getting CA Private Key
 </pre>
+
+## Create the client private key(client.crt) and public key(client.key)
+```
+openssl genrsa -out client.key
+openssl req -new -key client.key -out client_reqout.txt
+openssl x509 -req -in client_reqout.txt -days 3650 -sha256 -CAcreateserial -CA  serverca.crt -CAkey servercakey.pem -out client.crt
+```
+When prompted for password, I type 'root@123' as the password for the passphrase.
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ openssl genrsa -out client.key
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.......+++++
+.........................................................................................................................+++++
+e is 65537 (0x010001)
+(jegan@tektutor.org)$ openssl req -new -key client.key -out client_reqout.txt
+Can't load /home/jegan/.rnd into RNG
+140654754931136:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/jegan/.rnd
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Tamil Nadu
+Locality Name (eg, city) []:Hosur
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:TekTutor
+Organizational Unit Name (eg, section) []:Software
+Common Name (e.g. server FQDN or YOUR name) []:ocp.tektutor.org
+Email Address []:jegan@tektutor.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+(jegan@tektutor.org)$ openssl x509 -req -in client_reqout.txt -days 3650 -sha256 -CAcreateserial -CA  serverca.crt -CAkey servercakey.pem -out client.crt
+Signature ok
+subject=C = IN, ST = Tamil Nadu, L = Hosur, O = TekTutor, OU = Software, CN = ocp.tektutor.org, emailAddress = jegan@tektutor.org
+Getting CA Private Key
+(jegan@tektutor.org)$ ls
+client.crt  client_reqout.txt  servercakey.pem  server.crt  server_reqout.txt
+client.key  serverca.crt       serverca.srl     server.key
+(jegan@tektutor.org)$ ls -l
+total 36
+-rw-rw-r-- 1 jegan jegan 1346 Aug 11 17:05 client.crt
+-rw------- 1 jegan jegan 1679 Aug 11 17:02 client.key
+-rw-rw-r-- 1 jegan jegan 1070 Aug 11 17:02 client_reqout.txt
+-rw-rw-r-- 1 jegan jegan 1468 Aug 11 16:52 serverca.crt
+-rw------- 1 jegan jegan 1675 Aug 11 16:50 servercakey.pem
+-rw-rw-r-- 1 jegan jegan   41 Aug 11 17:05 serverca.srl
+-rw-rw-r-- 1 jegan jegan 1346 Aug 11 17:00 server.crt
+-rw------- 1 jegan jegan 1679 Aug 11 16:57 server.key
+-rw-rw-r-- 1 jegan jegan 1070 Aug 11 16:59 server_reqout.txt
+</pre>
