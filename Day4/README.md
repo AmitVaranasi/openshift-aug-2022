@@ -286,7 +286,7 @@ my-pod   1/1     Running   0          8s
 
 As you can notice, the status is Running.  The scheduler looks for nodes that has diskType=ssd label, if it finds a node that matches the criteria then the pod will be deployed there, otherwise Scheduler will deploy on some nodes ignoring the preferrence. 
 
-## Creating a CronJob that runs every 1 hour and prints hello
+## ⛹️‍♂️ Lab - Creating a CronJob that runs every 1 hour and prints hello
 ```
 cd ~/openshift-aug-2022
 git pull
