@@ -172,3 +172,115 @@ Data
 username:  4 bytes
 password:  8 bytes
 </pre>
+
+## Removing existing label from a node
+```
+oc label node master-1.ocp.tektutor.org distype-
+```
+In the above command distype is the label key.
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc label node master-1.ocp.tektutor.org distype-</b>
+node/master-1.ocp.tektutor.org unlabeled
+</pre>
+
+
+## ⛹️‍♀️ Lab - Understanding Nodeaffinity with mandatory scheduling rules
+
+Initially let's ensure the label diskType=ssd doesn't exist in any node.
+```
+oc get nodes -l diskType=ssd
+```
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get nodes -l diskType=ssd</b>
+No resources found
+</pre>
+
+Let's deploy the pod in our openshift cluster now
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day4/node-affinity-scheduling/
+oc apply -f pod-with-mandatory-affinity-rules.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc apply -f pod-with-mandatory-affinity-rules.yml</b>
+pod/my-pod created
+(jegan@tektutor.org)$ <b>oc get po -w</b>
+NAME     READY   STATUS    RESTARTS   AGE
+my-pod   0/1     <b>Pending</b>   0          4s
+</pre>
+
+As you can notice, the status is Pending.  This is because the scheduler wasn't able to find any node that has the label diskType=ssd.
+
+Let's assign the label diskType=ssd to master-2 node
+```
+oc label node master-2.ocp.tektutor.org diskType=ssd
+oc get nodes -l diskType=ssd
+oc get po
+```
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc label node master-2.ocp.tektutor.org diskType=ssd</b>
+node/master-2.ocp.tektutor.org labeled
+(jegan@tektutor.org)$ <b>oc get nodes -l diskType=ssd</b>
+NAME                        STATUS   ROLES           AGE    VERSION
+master-2.ocp.tektutor.org   Ready    master,worker   2d4h   v1.23.5+012e945
+(jegan@tektutor.org)$ <b>oc get po</b>
+NAME     READY   STATUS    RESTARTS   AGE
+my-pod   1/1     Running   0          3m7s
+</pre>
+
+
+## ⛹️‍♀️ Lab - Understanding Nodeaffinity with preferred(optional) scheduling preferences
+
+Initially let's ensure the label diskType=ssd doesn't exist in any node.
+```
+oc get nodes -l diskType=ssd
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get nodes -l diskType=ssd</b>
+NAME                        STATUS   ROLES           AGE    VERSION
+master-2.ocp.tektutor.org   Ready    master,worker   2d5h   v1.23.5+012e945
+</pre>
+
+Let's remove the label from the master-2 node
+```
+oc label node master-2.ocp.tektutor.org diskType-
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc label node master-2.ocp.tektutor.org diskType-</b>
+node/master-2.ocp.tektutor.org unlabeled
+</pre>
+
+Let's deploy the pod in our openshift cluster now
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day4/node-affinity-scheduling/
+oc delete -f pod-with-mandatory-affinity-rules.yml
+oc apply -f pod-with-preffered-affinity.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc delete -f pod-with-mandatory-affinity-rules.yml</b>
+pod "my-pod" deleted
+(jegan@tektutor.org)$ <b>oc apply -f pod-with-preffered-affinity.yml</b>
+pod/my-pod created
+(jegan@tektutor.org)$ <b>oc get po -w</b>
+NAME     READY   STATUS    RESTARTS   AGE
+my-pod   1/1     Running   0          8s
+</pre>
+
+As you can notice, the status is Running.  The scheduler looks for nodes that has diskType=ssd label, if it finds a node that matches the criteria then the pod will be deployed there, otherwise Scheduler will deploy on some nodes ignoring the preferrence. 
