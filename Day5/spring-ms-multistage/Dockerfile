@@ -8,5 +8,5 @@ RUN mvn package
 
 FROM registry.redhat.io/ubi8/openjdk-11:latest as runner
 
-COPY --from=builder ./app.jar ./hello/target/*.jar
+COPY --from=builder target/*.jar ./app.jar
 CMD ["java", "-jar", "./app.jar"]
