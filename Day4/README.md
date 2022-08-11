@@ -17,6 +17,65 @@ Forwarding from [::1]:8080 -> 8080
 Handling connection for 8080
 </pre>
 
+## Demonstrates how a cloud native application can retrieve config details from Configmap
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day3/configmap
+oc apply -f software-tools-cm.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc apply -f software-tools-cm.yml</b>
+configmap/software-tools-cm created
+</pre>
+
+Let's create the pod that uses the configmap values
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day3/configmap
+oc apply -f my-pod.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc apply -f my-pod.yml 
+pod/my-pod created
+</pre>
+
+List and check if the my-pod is running
+<pre>
+(jegan@tektutor.org)$ oc get po
+NAME                     READY   STATUS    RESTARTS   AGE
+<b>my-pod                   1/1     Running   0          7s</b>
+nginx-78644964b4-s5qgr   1/1     Running   0          47m
+nginx-78644964b4-wdb2b   1/1     Running   0          47m
+nginx-78644964b4-xqp77   1/1     Running   0          47m
+</pre>
+
+Verifying if the config map values are accessible within the pod
+```
+oc rsh pod/my-pod
+echo $MAVEN_HOME
+echo $JDK_HOME
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc rsh pod/my-pod</b>
+$ ls
+50x.html  index.html
+$ <b>echo $MAVEN_HOME</b>
+/usr/share/maven
+$ echo $JDK_HOME
+/usr/lib/jvm/jdk-11-jdk11
+$ exit
+</pre>
+
 ## See if you can access the web page from the Pod after port-forward in a different terminal
 ```
 curl localhost:8080
