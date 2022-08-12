@@ -309,3 +309,5 @@ Storing signatures
 Successfully pushed image-registry.openshift-image-registry.svc:5000/jegan/django-psql-example@sha256:cc18d5a6cead748461119846024d62c4a4dec232830a1d1882300bbc497b7374
 Push successful
 </pre>
+
+You should be able to access the Django Python web application that uses Postgres database from OpenShift webconsole.
