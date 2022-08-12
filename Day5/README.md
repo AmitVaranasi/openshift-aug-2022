@@ -263,3 +263,49 @@ Expected output
     Build scheduled, use 'oc logs -f buildconfig/django-psql-example' to track its progress.
     Run 'oc status' to view your app.
 </pre>
+
+List the build config
+```
+oc get bc
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get bc</b>
+NAME                  TYPE     FROM   LATEST
+<b>django-psql-example   Source   Git    1</b>
+spring-hello          Docker   Git    1
+</pre>
+
+Check the build logs
+```
+oc logs -f bc/django-psql-example
+```
+
+Expected output ( Only the last few lines are shown below )
+<pre>
+----------------------------------------------------------------------
+Ran 3 tests in 0.055s
+
+OK
+Destroying test database for alias 'default'...
+[3/3] STEP 1/1: FROM 048f290a28d7df18e4d1c359d0c37c279838244e922cf31407d019cbc9df3897
+[3/3] COMMIT temp.builder.openshift.io/jegan/django-psql-example-1:dfe3dbf6
+--> 048f290a28d
+Successfully tagged temp.builder.openshift.io/jegan/django-psql-example-1:dfe3dbf6
+048f290a28d7df18e4d1c359d0c37c279838244e922cf31407d019cbc9df3897
+
+Pushing image image-registry.openshift-image-registry.svc:5000/jegan/django-psql-example:latest ...
+Getting image source signatures
+Copying blob sha256:c33176e339ee0c3bc814252724e1957c06414c2e695d2f14771fb44349e73cdb
+Copying blob sha256:354c079828fae509c4f8e4ccb59199d275f17b0f26b1d7223fd64733788edf32
+Copying blob sha256:e0dc1b5a4801cf6fec23830d5fcea4b3fac076b9680999c49935e5b50a17e63b
+Copying blob sha256:471b87de02e1ccb2e2372afc08241872c651c1cc6444e888b966893b30d6d166
+Copying blob sha256:7e3624512448126fd29504b9af9bc034538918c54f0988fb08c03ff7a3a9a4cb
+Copying blob sha256:db0f4cd412505c5cc2f31cf3c65db80f84d8656c4bfa9ef627a6f532c0459fc4
+Copying config sha256:048f290a28d7df18e4d1c359d0c37c279838244e922cf31407d019cbc9df3897
+Writing manifest to image destination
+Storing signatures
+Successfully pushed image-registry.openshift-image-registry.svc:5000/jegan/django-psql-example@sha256:cc18d5a6cead748461119846024d62c4a4dec232830a1d1882300bbc497b7374
+Push successful
+</pre>
