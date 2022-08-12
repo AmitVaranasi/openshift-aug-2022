@@ -1,20 +1,20 @@
 # Day 5
 
-## Deploying an application using Dockerfile from Github repo in a sub-folder
+## ⛹️‍♀️ Lab - Deploying an application using Dockerfile from Github repo in a sub-folder
 ```
 oc new-project jegan
 oc new-app --name hello https://github.com/tektutor/openshift-aug-2022.git --context-dir=Day2/spring-ms
 oc expose svc/hello
 ```
 
-## Deploying an application using plain source code with Image suggestion
+## ⛹️‍♀️ Lab -  Deploying an application using plain source code with Image suggestion
 ```
 oc project jegan
 oc new-app --name hello registry.redhat.io/ubi8/openjdk-11:latest~https://github.com/tektutor/openshift-aug-2022.git#main --context-dir=Day5/spring-ms
 oc expose svc/hello
 ```
 
-## Deploying an application using multi-stage Dockerfile from GitHub repo
+## ⛹️‍♂️ Lab - Deploying an application using multi-stage Dockerfile from GitHub repo
 ```
 oc project jegan
 oc new-app --name hello https://github.com/tektutor/openshift-aug-2022.git#main --context-dir=Day5/spring-ms-multistage --strategy=docker
@@ -64,4 +64,62 @@ NAME    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      
 hello   ClusterIP   172.30.192.195   <none>        8080/TCP,8443/TCP,8778/TCP   5m15s
 (jegan@tektutor.org)$ <b>oc expose svc/hello</b>
 route.route.openshift.io/hello exposed
+</pre>
+
+## ⛹️‍♀️ Lab - Creating a Building with an docker image output
+
+Let's first create the ImageStream resource
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day5/ImageStreamAndBuildConfig
+oc apply -f imagestream.yml 
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc apply -f imagestream.yml</b>
+imagestream.image.openshift.io/tektutor-spring-hello created
+</pre>
+
+Listing the imagestream
+```
+
+```
+
+Let's create the buildconfig and start the build
+```
+cd ~/openshift-aug-2022
+git pull
+
+cd Day5/ImageStreamAndBuildConfig
+oc apply -f buildconfig.yml
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ oc apply -f buildconfig.yml 
+buildconfig.build.openshift.io/spring-hello created
+</pre>
+
+Checking the build output
+```
+oc logs -f bc/spring-hello
+```
+
+## ⛹️‍♀️ Lab - Deleting an image from OpenShift container registry
+```
+oc get images| grep image-registry.openshift-image-registry.svc:5000 | grep tektutor-spring-hello
+
+oc delete image sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get images| grep image-registry.openshift-image-registry.svc:5000 | grep tektutor-spring-hello</b>
+sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b   image-registry.openshift-image-registry.svc:5000/jegan/tektutor-spring-hello@sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b
+
+(jegan@tektutor.org)$ <b>oc delete image sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b</b>
+image.image.openshift.io "sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b" deleted
 </pre>
