@@ -1,0 +1,359 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: jenkins-agent
+  labels:
+    role: jenkins-agent
+data:
+  template1: |-
+    jenkins:
+      agentProtocols:
+      - "JNLP4-connect"
+      - "Ping"
+      authorizationStrategy:
+        globalMatrix:
+          permissions:
+          - "Agent/Build:admin"
+          - "Agent/Configure:admin"
+          - "Agent/Configure:kube:admin-admin-edit-view"
+          - "Agent/Connect:admin"
+          - "Agent/Create:admin"
+          - "Agent/Delete:admin"
+          - "Agent/Delete:kube:admin-admin-edit-view"
+          - "Agent/Disconnect:admin"
+          - "Agent/ExtendedRead:admin"
+          - "Credentials/Create:admin"
+          - "Credentials/Create:kube:admin-admin-edit-view"
+          - "Credentials/Delete:admin"
+          - "Credentials/Delete:kube:admin-admin-edit-view"
+          - "Credentials/ManageDomains:admin"
+          - "Credentials/ManageDomains:kube:admin-admin-edit-view"
+          - "Credentials/Update:admin"
+          - "Credentials/Update:kube:admin-admin-edit-view"
+          - "Credentials/UseItem:admin"
+          - "Credentials/UseOwn:admin"
+          - "Credentials/View:admin"
+          - "Credentials/View:kube:admin-admin-edit-view"
+          - "Job/Build:admin"
+          - "Job/Build:kube:admin-admin-edit-view"
+          - "Job/Cancel:admin"
+          - "Job/Cancel:kube:admin-admin-edit-view"
+          - "Job/Configure:admin"
+          - "Job/Configure:kube:admin-admin-edit-view"
+          - "Job/Create:admin"
+          - "Job/Create:kube:admin-admin-edit-view"
+          - "Job/Delete:admin"
+          - "Job/Delete:kube:admin-admin-edit-view"
+          - "Job/Discover:admin"
+          - "Job/Discover:kube:admin-admin-edit-view"
+          - "Job/ExtendedRead:admin"
+          - "Job/Move:admin"
+          - "Job/Read:admin"
+          - "Job/Read:kube:admin-admin-edit-view"
+          - "Job/Workspace:admin"
+          - "Job/Workspace:kube:admin-admin-edit-view"
+          - "Lockable Resources/Reserve:admin"
+          - "Lockable Resources/Unlock:admin"
+          - "Lockable Resources/View:admin"
+          - "Metrics/HealthCheck:admin"
+          - "Metrics/ThreadDump:admin"
+          - "Metrics/View:admin"
+          - "N/A/FullControl:admin"
+          - "N/A/GenericConfigure:admin"
+          - "N/A/GenericCreate:admin"
+          - "N/A/GenericDelete:admin"
+          - "N/A/GenericRead:admin"
+          - "N/A/GenericUpdate:admin"
+          - "N/A/GenericWrite:admin"
+          - "Overall/Administer:admin"
+          - "Overall/Administer:kube:admin-admin-edit-view"
+          - "Overall/ConfigureUpdateCenter:admin"
+          - "Overall/Manage:admin"
+          - "Overall/Read:admin"
+          - "Overall/Read:kube:admin-admin-edit-view"
+          - "Overall/RunScripts:admin"
+          - "Overall/RunScripts:kube:admin-admin-edit-view"
+          - "Overall/SystemRead:admin"
+          - "Overall/UploadPlugins:admin"
+          - "Run/Delete:admin"
+          - "Run/Delete:kube:admin-admin-edit-view"
+          - "Run/Replay:admin"
+          - "Run/Update:admin"
+          - "Run/Update:kube:admin-admin-edit-view"
+          - "SCM/Tag:admin"
+          - "SCM/Tag:kube:admin-admin-edit-view"
+          - "View/Configure:admin"
+          - "View/Configure:kube:admin-admin-edit-view"
+          - "View/Create:admin"
+          - "View/Create:kube:admin-admin-edit-view"
+          - "View/Delete:admin"
+          - "View/Delete:kube:admin-admin-edit-view"
+          - "View/Read:admin"
+      clouds:
+      - kubernetes:
+          addMasterProxyEnvVars: true
+          containerCap: 100
+          containerCapStr: "100"
+          jenkinsTunnel: "172.30.112.196:50000"
+          jenkinsUrl: "http://172.30.103.189:80"
+          name: "openshift"
+          namespace: "tektutor"
+          serverCertificate: |-
+            -----BEGIN CERTIFICATE-----
+            MIIDMjCCAhqgAwIBAgIIbk/CcfAyxoowDQYJKoZIhvcNAQELBQAwNzESMBAGA1UE
+            CxMJb3BlbnNoaWZ0MSEwHwYDVQQDExhrdWJlLWFwaXNlcnZlci1sYi1zaWduZXIw
+            HhcNMjIwNzA5MTIwMDE1WhcNMzIwNzA2MTIwMDE1WjA3MRIwEAYDVQQLEwlvcGVu
+            c2hpZnQxITAfBgNVBAMTGGt1YmUtYXBpc2VydmVyLWxiLXNpZ25lcjCCASIwDQYJ
+            KoZIhvcNAQEBBQADggEPADCCAQoCggEBAJyat0dL1K2p7FwTpXtF6cXgbfqwp2Hx
+            BjhS5cnDm9B5B64kP+vq0iP3T9ui03FYAhaoLKHQJF743ggN1TPzfQNCptDHBkA5
+            jeyfb1+jrDG+U/quyMf6+OmsKf7FFNCT4fr65omXNu4HIYpmM9G2MUJ1Jw09RrmI
+            0S+Z1olXzSTfVXdlNI+peRlYXhyK7TmIrYm7XSDkOnbEcoOxz3gPVaXuG3Ssi+mf
+            Eq90wPq03E240eZ7abh2woMbrz0uvubKVY+SmVcctiLZOhvtObMfEzAzqUG1JuxD
+            at8y4o2l4gJDxHHIMTmsgX/f+ouhHO6gysYHyRFxjpD0kVLnR1kSOF8CAwEAAaNC
+            MEAwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFEp
+            m3SoFj/j3+DGiz+s9H3uQCVyMA0GCSqGSIb3DQEBCwUAA4IBAQBjCIPliNWOsTI/
+            zaN+zuccJLSKomD+ttrI7LH/XjFfXNShgTcIlBQ2EaSYU1q68Z5H2975hzDAmsXZ
+            X1OKSaAf1G+z3Gz5xY2ZOD3K+ZBIJGg1Pa8+OT3EyoPtFe/Bnjsax2lqcxTn9Rum
+            znm0kXd+ON3/siyAhib/50ewrKDW+fPgV2PK4XIj2cVIZvOteEeNN9GJKTvrle2X
+            HGIRqG1GfMagQzMYd+AUNUhhruOgoKW7ooGAkKrvHiktNeA1I8X7UAdqDXVpJL+J
+            GF/D65Y9u9Q0rjiaoafFIVrBhFSEWKhSVavz4fT9r3Q3X2od8By6BPaD7q5EYVQ0
+            3jFQWhnf
+            -----END CERTIFICATE-----
+          serverUrl: "https://172.30.0.1:443"
+          templates:
+          - containers:
+            - alwaysPullImage: true
+              args: "^${computer.jnlpmac} ^${computer.name}"
+              image: "image-registry.openshift-image-registry.svc:5000/openshift/jenkins-agent-maven:latest"
+              livenessProbe:
+                failureThreshold: 0
+                initialDelaySeconds: 0
+                periodSeconds: 0
+                successThreshold: 0
+                timeoutSeconds: 0
+              name: "jnlp"
+              workingDir: "/tmp"
+            id: "maven-50e53b0fd012e7ade37fd375f47db620"
+            label: "maven"
+            name: "maven"
+            serviceAccount: "jenkins"
+            yamlMergeStrategy: "override"
+          - containers:
+            - alwaysPullImage: true
+              args: "^${computer.jnlpmac} ^${computer.name}"
+              image: "image-registry.openshift-image-registry.svc:5000/openshift/jenkins-agent-nodejs:latest"
+              livenessProbe:
+                failureThreshold: 0
+                initialDelaySeconds: 0
+                periodSeconds: 0
+                successThreshold: 0
+                timeoutSeconds: 0
+              name: "jnlp"
+              workingDir: "/tmp"
+            id: "nodejs-1574e5e6af64ded46fc1a0ede7ac03a2"
+            label: "nodejs"
+            name: "nodejs"
+            serviceAccount: "jenkins"
+            yamlMergeStrategy: "override"
+          - containers:
+            - alwaysPullImage: true
+              args: "$(JENKINS_SECRET) $(JENKINS_NAME)"
+              image: "image-registry.openshift-image-registry.svc:5000/openshift/jenkins-agent-base:latest"
+              livenessProbe:
+                failureThreshold: 0
+                initialDelaySeconds: 0
+                periodSeconds: 0
+                successThreshold: 0
+                timeoutSeconds: 0
+              name: "jnlp"
+              workingDir: "/home/jenkins/agent"
+            - alwaysPullImage: true
+              command: "cat"
+              image: "image-registry.openshift-image-registry.svc:5000/openshift/java:latest"
+              livenessProbe:
+                failureThreshold: 0
+                initialDelaySeconds: 0
+                periodSeconds: 0
+                successThreshold: 0
+                timeoutSeconds: 0
+              name: "java"
+              ttyEnabled: true
+              workingDir: "/home/jenkins/agent"
+            id: "java-builder-4049f28b2b4dc3e98c97909816f3a76c"
+            label: "java-builder"
+            name: "java-builder"
+            serviceAccount: "jenkins"
+            yamlMergeStrategy: "override"
+          - containers:
+            - alwaysPullImage: true
+              args: "$(JENKINS_SECRET) $(JENKINS_NAME)"
+              image: "image-registry.openshift-image-registry.svc:5000/openshift/jenkins-agent-base:latest"
+              livenessProbe:
+                failureThreshold: 0
+                initialDelaySeconds: 0
+                periodSeconds: 0
+                successThreshold: 0
+                timeoutSeconds: 0
+              name: "jnlp"
+              workingDir: "/home/jenkins/agent"
+            - alwaysPullImage: true
+              command: "cat"
+              image: "image-registry.openshift-image-registry.svc:5000/openshift/nodejs:latest"
+              livenessProbe:
+                failureThreshold: 0
+                initialDelaySeconds: 0
+                periodSeconds: 0
+                successThreshold: 0
+                timeoutSeconds: 0
+              name: "nodejs"
+              ttyEnabled: true
+              workingDir: "/home/jenkins/agent"
+            id: "nodejs-builder-4081c5b6fe64b83861efb217384efbca"
+            label: "nodejs-builder"
+            name: "nodejs-builder"
+            serviceAccount: "jenkins"
+            yamlMergeStrategy: "override"
+      - docker:
+          dockerApi:
+            connectTimeout: 60
+            dockerHost:
+              uri: "tcp://192.168.1.80:4243"
+            readTimeout: 60
+          exposeDockerHost: true
+          name: "docker"
+          templates:
+          - connector: "attach"
+            dockerTemplateBase:
+              cpuPeriod: 0
+              cpuQuota: 0
+              image: "csanchez/maven:latest"
+            labelString: "docker-slave"
+            mode: EXCLUSIVE
+            name: "docker-slave"
+            pullTimeout: 300
+            remoteFs: "/tmp"
+      disableRememberMe: false
+      labelAtoms:
+      - name: "docker-slave"
+      - name: "java-builder"
+      - name: "master"
+      - name: "maven"
+      - name: "nodejs"
+      - name: "nodejs-builder"
+      labelString: "master"
+      markupFormatter: "plainText"
+      mode: NORMAL
+      myViewsTabBar: "standard"
+      noUsageStatistics: true
+      numExecutors: 5
+      primaryView:
+        all:
+          name: "all"
+      projectNamingStrategy: "standard"
+      quietPeriod: 1
+      remotingSecurity:
+        enabled: false
+      scmCheckoutRetryCount: 0
+      securityRealm: "openShiftOAuth2"
+      slaveAgentPort: 50000
+      updateCenter:
+        sites:
+        - id: "default"
+          url: "https://updates.jenkins.io/update-center.json"
+      views:
+      - all:
+          name: "all"
+      viewsTabBar: "standard"
+    globalCredentialsConfiguration:
+      configuration:
+        providerFilter: "none"
+        typeFilter: "none"
+    security:
+      apiToken:
+        creationOfLegacyTokenEnabled: false
+        tokenGenerationOnCreationEnabled: false
+        usageStatisticsEnabled: true
+      globalJobDslSecurityConfiguration:
+        useScriptSecurity: true
+      sSHD:
+        port: -1
+    unclassified:
+      bitbucketEndpointConfiguration:
+        endpoints:
+        - bitbucketCloudEndpoint:
+            enableCache: false
+            manageHooks: false
+            repositoriesCacheDuration: 0
+            teamCacheDuration: 0
+      buildDiscarders:
+        configuredBuildDiscarders:
+        - "jobBuildDiscarder"
+      fingerprints:
+        fingerprintCleanupDisabled: false
+        storage: "file"
+      gitHubConfiguration:
+        apiRateLimitChecker: ThrottleForNormalize
+      gitHubPluginConfig:
+        hookUrl: "https://jenkins-tektutor.apps.ocp.tektutor.org/github-webhook/"
+      gitSCM:
+        addGitTagAction: false
+        allowSecondFetch: false
+        createAccountBasedOnEmail: false
+        disableGitToolChooser: false
+        hideCredentials: false
+        showEntireCommitSummaryInChanges: false
+        useExistingAccountWithSameEmail: false
+      globalPluginConfiguration:
+        buildConfigListInterval: 300
+        buildListInterval: 300
+        configMapListInterval: 300
+        enabled: true
+        foldersEnabled: true
+        imageStreamListInterval: 300
+        maxConnections: 100
+        namespace: "tektutor"
+        secretListInterval: 300
+        syncBuildConfigsAndBuilds: true
+        syncConfigMaps: true
+        syncImageStreams: true
+        syncSecrets: true
+        useClusterMode: false
+      junitTestResultStorage:
+        storage: "file"
+      location:
+        adminAddress: "address not configured yet <nobody@nowhere>"
+        url: "https://jenkins-tektutor.apps.ocp.tektutor.org/"
+      mailer:
+        charset: "UTF-8"
+        useSsl: false
+        useTls: false
+      mavenModuleSet:
+        localRepository: "default"
+      pollSCM:
+        pollingThreadCount: 10
+      prometheusConfiguration:
+        appendParamLabel: false
+        appendStatusLabel: false
+        collectDiskUsage: true
+        collectingMetricsPeriodInSeconds: 120
+        countAbortedBuilds: true
+        countFailedBuilds: true
+        countNotBuiltBuilds: true
+        countSuccessfulBuilds: true
+        countUnstableBuilds: true
+        defaultNamespace: "default"
+        fetchTestResults: true
+        jobAttributeName: "jenkins_job"
+        path: "prometheus"
+        processingDisabledBuilds: false
+        useAuthenticatedEndpoint: false
+      subversionSCM:
+        workspaceFormat: 8
+    tool:
+      git:
+        installations:
+        - home: "git"
+          name: "Default"
+      mavenGlobalConfig:
+        globalSettingsProvider: "standard"
+        settingsProvider: "standard"

@@ -1,0 +1,14 @@
+kind: "BuildConfig"
+apiVersion: build.openshift.io/v1 
+metadata:
+  name: "hello-microservice"
+  namespace: tektutor
+spec:
+  source:
+    git:
+      uri: "https://github.com/tektutor/openshift-aug-2022.git"
+      ref: "main"
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: Day5/jenkins/Jenkinsfile 
+    type: JenkinsPipeline
