@@ -337,6 +337,20 @@ Push successful
 
 You should be able to access the Django Python web application that uses Postgres database from OpenShift webconsole.
 
+## Lab - Finding the Jenkins templates available in OpenShift
+```
+oc get templates --all-namespaces | grep jenkins
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get templates --all-namespaces | grep jenkins</b>
+<b>openshift   jenkins-ephemeral                               Jenkins service, without persistent storage....                                    11 (all set)      7</b>
+openshift   jenkins-ephemeral-monitored                     Jenkins service, without persistent storage. ...                                   12 (all set)      8
+openshift   jenkins-persistent                              Jenkins service, with persistent storage....                                       13 (all set)      8
+openshift   jenkins-persistent-monitored                    Jenkins service, with persistent storage. ...                                      14 (all set)      9
+</pre>
+
 ## Lab - Deploying Jenkins within RedHat OpenShift
 ```
 oc new-app jenkins-ephemeral
