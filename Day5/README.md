@@ -193,3 +193,73 @@ conf  manage.py  openshift  project  README.md  requirements.txt  welcome  wsgi.
 W0812 07:09:19.684047   34200 shim_kubectl.go:58] Using non-groupfied API resources is deprecated and will be removed in a future release, update apiVersion to "template.openshift.io/v1" for your resource
 template.template.openshift.io/django-psql-example created
 </pre>
+
+The above steps will create the template within the OpenShift but won't deploy the application yet.
+Let's list the templates installed in your OpenShift cluster under your project.
+
+```
+oc get templates
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get templates</b>
+NAME                  DESCRIPTION                                                                        PARAMETERS     OBJECTS
+django-psql-example   An example Django application with a PostgreSQL database. For more informatio...   19 (5 blank)   8
+</pre>
+
+Let's deploy the application using the above template.
+```
+oc new-app django-psql-example
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc new-app django-psql-example</b>
+--> Deploying template "jegan/django-psql-example" to project jegan
+
+     Django + PostgreSQL (Ephemeral)
+     ---------
+     An example Django application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/django-ex/blob/master/README.md.
+     
+     WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+
+     The following service(s) have been created in your project: django-psql-example, postgresql.
+     
+     For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/django-ex/blob/master/README.md.
+
+     * With parameters:
+        * Name=django-psql-example
+        * Namespace=openshift
+        * Version of Python Image=3.8-ubi8
+        * Version of PostgreSQL Image=12-el8
+        * Memory Limit=512Mi
+        * Memory Limit (PostgreSQL)=512Mi
+        * Git Repository URL=https://github.com/sclorg/django-ex.git
+        * Git Reference=
+        * Context Directory=
+        * Application Hostname=
+        * GitHub Webhook Secret=sdiofyNeMsaKKpfXy5y5tNWUTWQcsGIy5HoXbsSp # generated
+        * Database Service Name=postgresql
+        * Database Engine=postgresql
+        * Database Name=default
+        * Database Username=django
+        * Database User Password=cqEGUaEu7qkPJWr7 # generated
+        * Application Configuration File Path=
+        * Django Secret Key=n5q7DR1XhYxfdABp5qCUa9f9XI5gH1DgjZiRMdH0PpZ5f9gzMm # generated
+        * Custom PyPi Index URL=
+
+--> Creating resources ...
+    secret "django-psql-example" created
+    service "django-psql-example" created
+    route.route.openshift.io "django-psql-example" created
+    imagestream.image.openshift.io "django-psql-example" created
+    buildconfig.build.openshift.io "django-psql-example" created
+    deploymentconfig.apps.openshift.io "django-psql-example" created
+    service "postgresql" created
+    deploymentconfig.apps.openshift.io "postgresql" created
+--> Success
+    Access your application via route 'django-psql-example-jegan.apps.ocp.tektutor.org' 
+    Build scheduled, use 'oc logs -f buildconfig/django-psql-example' to track its progress.
+    Run 'oc status' to view your app.
+</pre>
