@@ -7,6 +7,30 @@ oc new-app --name hello https://github.com/tektutor/openshift-aug-2022.git --con
 oc expose svc/hello
 ```
 
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc new-app --name hello https://github.com/tektutor/openshift-aug-2022.git --context-dir=Day2/spring-ms</b>
+--> Found container image b32de7d (8 days old) from docker.io for "docker.io/openjdk:latest"
+
+    * An image stream tag will be created as "openjdk:latest" that will track the source image
+    * A Docker build using source code from https://github.com/tektutor/openshift-aug-2022.git will be created
+      * The resulting image will be pushed to image stream tag "hello:latest"
+      * Every time "openjdk:latest" changes a new build will be triggered
+
+--> Creating resources ...
+    imagestream.image.openshift.io "openjdk" created
+    imagestream.image.openshift.io "hello" created
+    buildconfig.build.openshift.io "hello" created
+    deployment.apps "hello" created
+    service "hello" created
+--> Success
+    Build scheduled, use 'oc logs -f buildconfig/hello' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose service/hello' 
+    Run 'oc status' to view your app.
+</pre>
+
+
 ## ⛹️‍♀️ Lab -  Deploying an application using plain source code with Image suggestion
 ```
 oc project jegan
