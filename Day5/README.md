@@ -50,7 +50,18 @@ Expected output
 </pre>
 
 
-### Checking build logs
+### Check build logs and create a route
 ```
 oc logs -f bc/hello
+oc get svc
+oc expose svc/hello
 ```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get svc</b>
+NAME    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+hello   ClusterIP   172.30.192.195   <none>        8080/TCP,8443/TCP,8778/TCP   5m15s
+(jegan@tektutor.org)$ <b>oc expose svc/hello</b>
+route.route.openshift.io/hello exposed
+</pre>
