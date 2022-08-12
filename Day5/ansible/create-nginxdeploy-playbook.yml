@@ -38,4 +38,4 @@
   - name: Create a nginx clusterip service
     k8s:
       state: present
-      src: ../../Day3/nginx-clusterip-svc.yml
+      src: ./nginx-clusterip-svc.yml
