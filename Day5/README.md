@@ -167,7 +167,7 @@ image.image.openshift.io "sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60
 cd ~/openshift-aug-2022
 git pull
 
-cd Day5/django-ex
+cd Day5/templates/django-ex
 oc create -f openshift/templates/django-postgresql.json
 ```
 
