@@ -20,3 +20,5 @@ Installing OpenShift in your Laptop/Desktop
 <pre>
 https://developers.redhat.com/products/openshift-local/overview
 </pre>
+
+## CI/CD with Jenkins,Ansible Tower and OpenShift
