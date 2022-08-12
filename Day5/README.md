@@ -161,3 +161,35 @@ sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b   image-
 (jegan@tektutor.org)$ <b>oc delete image sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b</b>
 image.image.openshift.io "sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60d472e48eae7dda58b" deleted
 </pre>
+
+## ⛹️‍♂️ Lab - Deploying a Python Django application using Template file
+```
+git clone https://github.com/sclorg/django-ex.git
+
+cd django-ex
+oc create -f openshift/templates/django-postgresql.json
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ git clone https://github.com/sclorg/django-ex.git
+Cloning into 'django-ex'...
+remote: Enumerating objects: 1040, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 1040 (delta 4), reused 10 (delta 2), pack-reused 1022
+Receiving objects: 100% (1040/1040), 299.57 KiB | 524.00 KiB/s, done.
+Resolving deltas: 100% (460/460), done.
+(jegan@tektutor.org)$ ls
+django-ex
+(jegan@tektutor.org)$ <b>cd django-ex</b>
+(jegan@tektutor.org)$ <b>ls</b>
+conf  manage.py  openshift  project  README.md  requirements.txt  welcome  wsgi.py
+(jegan@tektutor.org)$ ls openshift/templates/
+django.json  django-postgresql.json  django-postgresql-persistent.json
+(jegan@tektutor.org)$ ls
+conf  manage.py  openshift  project  README.md  requirements.txt  welcome  wsgi.py
+(jegan@tektutor.org)$ <b>oc create -f openshift/templates/django-postgresql.json</b>
+W0812 07:09:19.684047   34200 shim_kubectl.go:58] Using non-groupfied API resources is deprecated and will be removed in a future release, update apiVersion to "template.openshift.io/v1" for your resource
+template.template.openshift.io/django-psql-example created
+</pre>
