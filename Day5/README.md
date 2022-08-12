@@ -50,7 +50,7 @@ Expected output
 </pre>
 
 
-### Checking build logs
+### Check build logs and create a route
 ```
 oc logs -f bc/hello
 oc get svc
