@@ -336,3 +336,47 @@ Push successful
 </pre>
 
 You should be able to access the Django Python web application that uses Postgres database from OpenShift webconsole.
+
+## Lab - Deploying Jenkins within RedHat OpenShift
+```
+oc new-app jenkins-ephemeral
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc new-app jenkins-ephemeral</b>
+--> Deploying template "openshift/jenkins-ephemeral" to project jegan
+
+     Jenkins (Ephemeral)
+     ---------
+     Jenkins service, without persistent storage.
+     
+     WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+
+     A Jenkins service has been created in your project.  Log into Jenkins with your OpenShift account.  The tutorial at https://github.com/openshift/origin/blob/master/examples/jenkins/README.md contains more information about using this template.
+
+     * With parameters:
+        * Jenkins Service Name=jenkins
+        * Jenkins JNLP Service Name=jenkins-jnlp
+        * Enable OAuth in Jenkins=true
+        * Memory Limit=1Gi
+        * Jenkins ImageStream Namespace=openshift
+        * Disable memory intensive administrative monitors=false
+        * Jenkins ImageStreamTag=jenkins:2
+        * Allows use of Jenkins Update Center repository with invalid SSL certificate=false
+        * Image used for the 'jnlp' container of the sample 'java-sidecar' and 'nodejs-sidecar' PodTemplates=image-registry.openshift-image-registry.svc:5000/openshift/jenkins-agent-base:latest
+        * Image used for the 'java' container of the sample 'java-builder' PodTemplate=image-registry.openshift-image-registry.svc:5000/openshift/java:latest
+        * Image used for the 'nodejs' container of the sample 'nodejs-builder' PodTemplate=image-registry.openshift-image-registry.svc:5000/openshift/nodejs:latest
+
+--> Creating resources ...
+    route.route.openshift.io "jenkins" created
+    configmap "jenkins-trusted-ca-bundle" created
+    deploymentconfig.apps.openshift.io "jenkins" created
+    serviceaccount "jenkins" created
+    rolebinding.authorization.openshift.io "jenkins_edit" created
+    service "jenkins-jnlp" created
+    service "jenkins" created
+--> Success
+    Access your application via route 'jenkins-jegan.apps.ocp.tektutor.org' 
+    Run 'oc status' to view your app.
+</pre>
