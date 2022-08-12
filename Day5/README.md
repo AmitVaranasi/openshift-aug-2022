@@ -85,7 +85,9 @@ imagestream.image.openshift.io/tektutor-spring-hello created
 
 Listing the imagestream
 ```
-
+(jegan@tektutor.org)$ <b>oc get is</b>
+NAME                    IMAGE REPOSITORY                                                               TAGS   UPDATED
+tektutor-spring-hello   image-registry.openshift-image-registry.svc:5000/jegan/tektutor-spring-hello 
 ```
 
 Let's create the buildconfig and start the build
@@ -101,6 +103,18 @@ Expected output
 <pre>
 (jegan@tektutor.org)$ oc apply -f buildconfig.yml 
 buildconfig.build.openshift.io/spring-hello created
+</pre>
+
+Listing the build config
+```
+oc get bc
+```
+
+Expected output
+<pre>
+(jegan@tektutor.org)$ <b>oc get bc</b>
+NAME           TYPE     FROM   LATEST
+spring-hello   Docker   Git    1
 </pre>
 
 Checking the build output
