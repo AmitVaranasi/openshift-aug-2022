@@ -164,9 +164,10 @@ image.image.openshift.io "sha256:22f454e8a66f899723017653de4e2d182ef0142ba26ac60
 
 ## ⛹️‍♂️ Lab - Deploying a Python Django application using Template file
 ```
-git clone https://github.com/sclorg/django-ex.git
+cd ~/openshift-aug-2022
+git pull
 
-cd django-ex
+cd Day5/django-ex
 oc create -f openshift/templates/django-postgresql.json
 ```
 
